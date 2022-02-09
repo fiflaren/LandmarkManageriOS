@@ -21,7 +21,7 @@ enum CategoryError: Error, LocalizedError {
 class CategoryRepository {
     var categories: [Category] = []
 
-    private var coreDataManager: CoreDataManager
+    private var coreDataManager: CategoryCoreDataManager
     
     static var shared: CategoryRepository = CategoryRepository(coreDataManager: CoreDataManagerImpl.shared)
     
@@ -46,6 +46,7 @@ class CategoryRepository {
     func editCategory(categoryIndex: Int, newName: String) throws {
         let category = categories[categoryIndex]
         category.name = newName
+        category.modificationDate = Date()
         coreDataManager.editCategory()
 
     }

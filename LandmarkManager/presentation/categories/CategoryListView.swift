@@ -25,7 +25,7 @@ struct CategoryListView: View {
                             let index = categoryViewModel.categories.firstIndex(where: { $0.objectId == category.objectId })!
                             
                             NavigationLink(tag: category.objectId, selection: $selection) {
-                                Text("test")
+                                LandmarkListView(landmarkViewModel: LandmarkListViewModel(selectedCategory: category))
                             } label: {
                                 CategoryListRow(category: category)
                             }

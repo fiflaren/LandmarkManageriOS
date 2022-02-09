@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		941BFAE027B4260A009A384B /* LandmarkListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754E327B41B6D00C9DC56 /* LandmarkListRow.swift */; };
+		941BFAE127B4260A009A384B /* LandmarkListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754E427B41B6D00C9DC56 /* LandmarkListViewModel.swift */; };
+		941BFAE227B4260A009A384B /* LandmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754E527B41B6E00C9DC56 /* LandmarkListView.swift */; };
 		943754BE27B3D35700C9DC56 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754BD27B3D35700C9DC56 /* CoreDataManager.swift */; };
 		943754C127B3D3AA00C9DC56 /* CoreDataManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754C027B3D3AA00C9DC56 /* CoreDataManagerImpl.swift */; };
 		943754C427B3D69200C9DC56 /* CategoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754C327B3D69200C9DC56 /* CategoryRepository.swift */; };
@@ -19,6 +22,8 @@
 		943754D627B3FCD500C9DC56 /* ErrorDisplayWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754D527B3FCD500C9DC56 /* ErrorDisplayWrapper.swift */; };
 		943754DC27B40FAB00C9DC56 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754DB27B40FAB00C9DC56 /* Category.swift */; };
 		943754DF27B40FDE00C9DC56 /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754DE27B40FDE00C9DC56 /* Mapper.swift */; };
+		943754E727B41C6900C9DC56 /* Landmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754E627B41C6900C9DC56 /* Landmark.swift */; };
+		943754E927B4233B00C9DC56 /* LandmarkRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754E827B4233B00C9DC56 /* LandmarkRepository.swift */; };
 		94808BAA27B3CCD100CFC488 /* LandmarkManagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94808BA927B3CCD100CFC488 /* LandmarkManagerApp.swift */; };
 		94808BAE27B3CCD400CFC488 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94808BAD27B3CCD400CFC488 /* Assets.xcassets */; };
 		94808BB127B3CCD400CFC488 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94808BB027B3CCD400CFC488 /* Preview Assets.xcassets */; };
@@ -41,9 +46,11 @@
 		943754D527B3FCD500C9DC56 /* ErrorDisplayWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDisplayWrapper.swift; sourceTree = "<group>"; };
 		943754DB27B40FAB00C9DC56 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		943754DE27B40FDE00C9DC56 /* Mapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapper.swift; sourceTree = "<group>"; };
-		943754E327B41B6D00C9DC56 /* CategoryListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListRow.swift; sourceTree = "<group>"; };
+		943754E327B41B6D00C9DC56 /* LandmarkListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkListRow.swift; sourceTree = "<group>"; };
 		943754E427B41B6D00C9DC56 /* LandmarkListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkListViewModel.swift; sourceTree = "<group>"; };
 		943754E527B41B6E00C9DC56 /* LandmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkListView.swift; sourceTree = "<group>"; };
+		943754E627B41C6900C9DC56 /* Landmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Landmark.swift; sourceTree = "<group>"; };
+		943754E827B4233B00C9DC56 /* LandmarkRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkRepository.swift; sourceTree = "<group>"; };
 		94808BA627B3CCD100CFC488 /* LandmarkManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LandmarkManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94808BA927B3CCD100CFC488 /* LandmarkManagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkManagerApp.swift; sourceTree = "<group>"; };
 		94808BAD27B3CCD400CFC488 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -77,6 +84,7 @@
 		943754C227B3D65F00C9DC56 /* repository */ = {
 			isa = PBXGroup;
 			children = (
+				943754E827B4233B00C9DC56 /* LandmarkRepository.swift */,
 				943754C327B3D69200C9DC56 /* CategoryRepository.swift */,
 			);
 			path = repository;
@@ -111,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				943754DB27B40FAB00C9DC56 /* Category.swift */,
+				943754E627B41C6900C9DC56 /* Landmark.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -128,7 +137,7 @@
 			children = (
 				943754E527B41B6E00C9DC56 /* LandmarkListView.swift */,
 				943754E427B41B6D00C9DC56 /* LandmarkListViewModel.swift */,
-				943754E327B41B6D00C9DC56 /* CategoryListRow.swift */,
+				943754E327B41B6D00C9DC56 /* LandmarkListRow.swift */,
 			);
 			path = landmarks;
 			sourceTree = "<group>";
@@ -296,10 +305,15 @@
 				943754C427B3D69200C9DC56 /* CategoryRepository.swift in Sources */,
 				943754D027B3F1C900C9DC56 /* UIAlertController+.swift in Sources */,
 				943754CB27B3DB7500C9DC56 /* Date+.swift in Sources */,
+				943754E927B4233B00C9DC56 /* LandmarkRepository.swift in Sources */,
+				941BFAE127B4260A009A384B /* LandmarkListViewModel.swift in Sources */,
+				941BFAE027B4260A009A384B /* LandmarkListRow.swift in Sources */,
 				943754DC27B40FAB00C9DC56 /* Category.swift in Sources */,
 				943754DF27B40FDE00C9DC56 /* Mapper.swift in Sources */,
 				943754D427B3F49B00C9DC56 /* String+.swift in Sources */,
+				943754E727B41C6900C9DC56 /* Landmark.swift in Sources */,
 				94808BAA27B3CCD100CFC488 /* LandmarkManagerApp.swift in Sources */,
+				941BFAE227B4260A009A384B /* LandmarkListView.swift in Sources */,
 				94808BC127B3CE3100CFC488 /* CategoryListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -36,7 +36,11 @@ class CoreDataManagerImpl: CoreDataManager {
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
-    
+}
+
+// MARK: - Categories
+
+extension CoreDataManagerImpl {
     func fetchCategories(searchQuery: String? = nil) -> [Category] {
         let fetchRequest = Category.fetchRequest()
         
@@ -78,4 +82,29 @@ class CoreDataManagerImpl: CoreDataManager {
     func editCategory() {
         saveContext()
     }
+}
+
+// MARK: - Landmarks
+
+extension CoreDataManagerImpl {
+    func fetchLandmarks(searchQuery: String?) -> [Landmark] {
+        let fetchRequest = Landmark.fetchRequest()
+        
+        let sortDescription = NSSortDescriptor(keyPath: \Landmark.title, ascending: true)
+        fetchRequest.sortDescriptors = [sortDescription]
+        
+        if let searchQuery = searchQuery, !searchQuery.isEmpty {
+            let predicate = NSPredicate(format: "%K contains[cd] %@", argumentArray: [#keyPath(Landmark.title), searchQuery])
+            fetchRequest.predicate = predicate
+        }
+        
+        do {
+            let result = try container.viewContext.fetch(fetchRequest)
+            return result
+        } catch {
+            // TODO : replace fatal error with proper error handling
+            fatalError(error.localizedDescription)
+        }
+    }
+
 }

@@ -8,8 +8,12 @@
 
 "categoryList_title" = "Catégories";
 "categoryList_searchPlaceholder" = "Trouver une catégorie…";
-"categoryList_deleteActionTitle" = "Supprimer";
 "categoryList_emptyText" = "Aucune catégorie pour le moment…";
+
+
+"landmarkList_title" = "Lieux";
+"landmarkList_searchPlaceholder" = "Trouver un lieu…";
+"landmarkList_emptyText" = "Aucun lieu pour le moment…";
 
 
 "newCategory_title" = "Nouvelle catégorie";
