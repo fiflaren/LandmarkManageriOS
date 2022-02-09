@@ -10,4 +10,6 @@ import Foundation
 protocol CoreDataManager {
     func fetchCategories(searchQuery: String?) -> [Category]
     func addCategory(name: String) -> Category
+    func deleteCategory(category: Category)
+    func editCategory()
 }

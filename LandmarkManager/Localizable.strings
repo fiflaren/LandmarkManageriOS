@@ -1,0 +1,30 @@
+/* 
+  Localizable.strings
+  LandmarkManager
+
+  Created by Iuliu-Petru MACAVEI LT162 on 09/02/2022.
+  
+*/
+
+"categoryList_title" = "Catégories";
+"categoryList_searchPlaceholder" = "Trouver une catégorie…";
+"categoryList_deleteActionTitle" = "Supprimer";
+"categoryList_emptyText" = "Aucune catégorie pour le moment…";
+
+
+"newCategory_title" = "Nouvelle catégorie";
+"newCategory_subTitle" = "Ajouter une catégorie à la liste";
+"newCategory_textFieldPlaceholder" = "Nom de la catégorie…";
+"newCategory_saveActionTitle" = "Ajouter";
+
+
+"editCategory_title" = "Modifier une catégorie";
+"editCategory_subTitle" = "Modifier la catégorie selectionnée";
+"editCategory_textFieldPlaceholder" = "Nom de la catégorie…";
+"editCategory_saveActionTitle" = "Modifier";
+
+
+"cancelActionTitle" = "Annuler";
+"editActionTitle" = "Modifier";
+"deleteActionTitle" = "Supprimer";
+

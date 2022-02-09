@@ -70,4 +70,12 @@ class CoreDataManagerImpl: CoreDataManager {
         return category
     }
     
+    func deleteCategory(category: Category) {
+        container.viewContext.delete(category)
+        saveContext()
+    }
+    
+    func editCategory() {
+        saveContext()
+    }
 }

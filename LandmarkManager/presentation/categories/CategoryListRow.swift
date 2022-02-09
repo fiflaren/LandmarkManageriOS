@@ -8,16 +8,14 @@
 import SwiftUI
 
 struct CategoryListRow: View {
-    var category: Category
+    var category: CategoryModel
     
     var body: some View {
-
-            
         VStack(alignment: .leading) {
-            Text(category.name!)
+            Text(category.name)
                 .font(.headline)
 
-            Text(category.creationDate!.toLocalizedString())
+            Text(category.creationDate.toLocalizedString())
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
         }
