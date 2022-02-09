@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  LandmarkManager
+
+  Created by Iuliu-Petru MACAVEI LT162 on 09/02/2022.
+  
+*/
+
+
+"newTask_title" = "Nouvelle tâche";
+"newTask_subTitle" = "Ajouter une tâche à la liste";
+"newTask_textFieldPlaceholder" = "Nom de la tâche…";
+"newTask_cancelActionTitle" = "Annuler";
+"newTask_saveActionTitle" = "Ajouter";
+"newTask_deleteActionTitle" = "Supprimer";
