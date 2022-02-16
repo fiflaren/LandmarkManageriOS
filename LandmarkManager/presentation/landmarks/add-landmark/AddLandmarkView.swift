@@ -15,6 +15,7 @@ struct AddLandmarkView: View {
     
     @State private var landmarkName: String = ""
     @State private var landmarkDescription: String = ""
+    @State private var landmarkAddress: String = "Adresse inconnue"
     @State private var showingImagePicker = false
     @State private var landmarkImage: UIImage?
     @State private var image: Image = Image("placeholder")
@@ -52,12 +53,13 @@ struct AddLandmarkView: View {
                     Section(header: Text("Lieu")) {
                         HStack {
                             
-                            Text(addLandmarkViewModel.selectedLocation?.title ?? "Lieu non défini")
+                            Text(landmarkAddress)
                             
                             Spacer()
                             
                             NavigationLink {
                                 LandmarkLocationSearchView()
+                                    .environmentObject(addLandmarkViewModel)
                             } label: {
                             
                             }
@@ -79,6 +81,9 @@ struct AddLandmarkView: View {
                 }
             })
             .onChange(of: landmarkImage) { _ in loadImage() }
+            .onChange(of: addLandmarkViewModel.chosenLocation, perform: { location in
+                landmarkAddress = location?.title ?? "Adresse inconnue"
+            })
             .sheet(isPresented: $showingImagePicker) {
                 ImagePicker(image: $landmarkImage)
             }

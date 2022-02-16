@@ -9,24 +9,28 @@ import SwiftUI
 import MapKit
 
 struct LandmarkLocationSearchView: View {
-    @ObservedObject var addLandmarkViewModel: AddLandmarkViewModel = AddLandmarkViewModel()
+    @EnvironmentObject var addLandmarkViewModel: AddLandmarkViewModel
     
-    @StateObject var mapViewModel = LandmarkLocationMapViewModel()
+    @StateObject private var mapViewModel = LandmarkLocationMapViewModel()
+        
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         
         VStack() {
             
             ZStack(alignment: .center) {
+                // map view
                 MapView()
                     .environmentObject(mapViewModel)
                 
+                // pin
                 Image(systemName: "mappin.and.ellipse")
-                    .tint(.accentColor)
+                    .font(.title2)
+                    .foregroundColor(.accentColor)
                 
+                // search and map control buttons
                 VStack {
-                    
-                    
                     VStack(spacing: 5) {
                         // search bar
                         HStack {
@@ -89,8 +93,23 @@ struct LandmarkLocationSearchView: View {
                 }
             }
             
+            if mapViewModel.isLoading {
+                Spinner(animate: .constant(true))
+                    .frame(width: 25)
+            }
             
-            Button(action: {}) {
+            // submit button
+            Button(action: {
+                self.mapViewModel.getSelectedLocation { selectedLocation in
+                    guard let address = selectedLocation else {
+                        return
+                    }
+                    
+                    self.addLandmarkViewModel.chosenLocation = address
+                    
+                    self.presentationMode.wrappedValue.dismiss()
+                }
+            }) {
                 Text("Choisir ce lieu")
             }
             .tint(.accentColor)
@@ -111,6 +130,9 @@ struct LandmarkLocationSearchView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 mapViewModel.searchWithQuery()
             }
+        }
+        .alert(item: $mapViewModel.error) { error in
+            Alert(title: Text("Erreur"), message: Text(error.localizedDescription))
         }
     }
 }

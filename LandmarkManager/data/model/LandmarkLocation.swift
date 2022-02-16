@@ -8,9 +8,13 @@
 import Foundation
 import MapKit
 
-struct LandmarkLocation: Identifiable {
+struct LandmarkLocation: Equatable, Identifiable {
+    static func == (lhs: LandmarkLocation, rhs: LandmarkLocation) -> Bool {
+        lhs.id == rhs.id && lhs.title == rhs.title
+    }
+    
     let id = UUID().uuidString
     let title: String
-    let coordinate: CLLocationCoordinate2D?
-    let place: CLPlacemark
+    let place: CLPlacemark?
+    let coordinates: CLLocationCoordinate2D
 }

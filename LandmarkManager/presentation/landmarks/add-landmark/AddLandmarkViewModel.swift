@@ -10,8 +10,7 @@ import MapKit
 
 @MainActor class AddLandmarkViewModel: ObservableObject {
    
-    @Published var chosenCoordinates = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
-    @Published var selectedLocation: LandmarkLocation?
+    @Published var chosenLocation: LandmarkLocation? = nil
     
     private var locationManager = LocationManager.shared
         

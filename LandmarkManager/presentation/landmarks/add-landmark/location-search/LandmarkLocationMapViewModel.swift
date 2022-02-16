@@ -8,6 +8,17 @@
 import Foundation
 import MapKit
 
+enum LandmarkLocationError: Error, LocalizedError {
+    case locationNotFound
+    
+    var errorDescription: String? {
+        switch self {
+        case .locationNotFound:
+            return "Le lieu selectionné n'a pas pu être trouvé"
+        }
+    }
+}
+
 class LandmarkLocationMapViewModel: NSObject, ObservableObject {
     private let mapLatLongDistanceMeters: Double = 2000.0
     
@@ -23,6 +34,32 @@ class LandmarkLocationMapViewModel: NSObject, ObservableObject {
     
     @Published var searchResults: [LandmarkLocation] = []
     
+    @Published var isLoading: Bool = false
+    
+    @Published var error: ErrorDisplayWrapper? = nil
+    
+    func getSelectedLocation(finished: @escaping (LandmarkLocation?) -> ()) {
+        isLoading = true
+        
+        let selectedLocationCoordinates = mapView.centerCoordinate
+        
+        let locationCoordinates = CLLocation(latitude: selectedLocationCoordinates.latitude, longitude: selectedLocationCoordinates.longitude)
+        
+        LocationManager.shared.getAddressFromCoordinates(with: locationCoordinates) { addresses in
+            guard let address = addresses.first else {
+                self.error = ErrorDisplayWrapper.specificError(LandmarkLocationError.locationNotFound)
+                finished(nil)
+                return
+            }
+            
+            self.error = nil
+            
+            let landmarkLocation = LandmarkLocation(title: address, place: nil, coordinates: selectedLocationCoordinates)
+            
+            finished(landmarkLocation)
+        }
+    }
+    
     func searchWithQuery() {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = searchQuery
@@ -31,7 +68,7 @@ class LandmarkLocationMapViewModel: NSObject, ObservableObject {
             guard let result = response, error == nil else { return }
             
             self.searchResults = result.mapItems.compactMap({ (item) -> LandmarkLocation? in
-                return LandmarkLocation(title: item.name ?? "Unknown name", coordinate: item.placemark.coordinate, place: item.placemark)
+                return LandmarkLocation(title: item.name ?? "Unknown name", place: item.placemark, coordinates: item.placemark.coordinate)
             })
         }
     }
@@ -39,7 +76,7 @@ class LandmarkLocationMapViewModel: NSObject, ObservableObject {
     func selectSearchResult(location: LandmarkLocation) {
         searchQuery = ""
         
-        guard let coordinate = location.place.location?.coordinate else { return }
+        guard let coordinate = location.place?.location?.coordinate else { return }
         
         // create pin on map
         let pointAnnotation = MKPointAnnotation()
