@@ -8,8 +8,9 @@
 import Foundation
 import MapKit
 
-struct LandmarkLocation {
+struct LandmarkLocation: Identifiable {
+    let id = UUID().uuidString
     let title: String
     let coordinate: CLLocationCoordinate2D?
-    let region: MKCoordinateRegion?
+    let place: CLPlacemark
 }

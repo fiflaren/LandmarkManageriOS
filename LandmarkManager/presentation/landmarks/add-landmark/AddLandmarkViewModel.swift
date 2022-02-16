@@ -16,11 +16,11 @@ import MapKit
     private var locationManager = LocationManager.shared
         
     init() {}
-    
-    func fetchAddressForLocation(query: String) {
-        locationManager.findLocations(with: query) { foundLocations in
-            
-        }
-    }
+//    
+//    func fetchAddressForLocation(query: String) {
+//        locationManager.findLocations(with: query) { foundLocations in
+//            
+//        }
+//    }
     
 }

@@ -13,11 +13,10 @@ struct LandmarkLocationSearchView: View {
     
     @StateObject var mapViewModel = LandmarkLocationMapViewModel()
     
-    @State var defaultRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
-        
     var body: some View {
         
         VStack() {
+            
             ZStack(alignment: .center) {
                 MapView()
                     .environmentObject(mapViewModel)
@@ -26,37 +25,70 @@ struct LandmarkLocationSearchView: View {
                     .tint(.accentColor)
                 
                 VStack {
+                    
+                    
+                    VStack(spacing: 5) {
+                        // search bar
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .padding(.horizontal, 2)
+                                .foregroundColor(.gray)
+                            
+                            TextField("Chercher par nom...", text: $mapViewModel.searchQuery)
+                        }
+                        .padding(8)
+                        .background(.regularMaterial)
+                        .cornerRadius(5)
+                        
+                        // search results
+                        if !mapViewModel.searchResults.isEmpty && mapViewModel.searchQuery != "" {
+                            ScrollView {
+                                VStack(spacing: 15) {
+                                    ForEach(mapViewModel.searchResults) { result in
+                                        HStack {
+                                            Text(result.title)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding(.leading)
+                                            
+                                        }.onTapGesture {
+                                            mapViewModel.selectSearchResult(location: result)
+                                        }
+                                        
+                                        Divider()
+                                    }
+                                }
+                                .padding(.top)
+                            }
+                            .background(.regularMaterial)
+                            .cornerRadius(5)
+                        }
+                    }
+                    .padding()
+                    
                     Spacer()
                     
                     VStack {
                         
-                        Button { mapViewModel.resetToUserLocation() } label: {
-                            Image(systemName: "location.fill")
-                                .font(.title2)
-                                .padding(5)
-                                .background(alignment: .center, content: {
-                                    Circle().fill(.regularMaterial)
-                                })
-                                
-                                .clipShape(Circle())
-                        }
-                        
                         Button { mapViewModel.updateMapType() } label: {
                             Image(systemName: mapViewModel.mapType == .standard ? "network" : "map")
                                 .font(.title2)
-                                .padding(5)
+                                .padding(6)
                                 .background(alignment: .center, content: {
-                                    Circle().fill(.regularMaterial)
+                                    Circle().fill(.white)
+                                        .opacity(0.8)
+                                    
                                 })
-                                
                                 .clipShape(Circle())
                         }
-
+                        
+                        Spacer().frame(height: 50)
+                        
                     }
                     .frame(maxWidth: .infinity, alignment: .trailing)
-                    .padding()
+                    .padding(10)
                 }
             }
+            
             
             Button(action: {}) {
                 Text("Choisir ce lieu")
@@ -67,22 +99,19 @@ struct LandmarkLocationSearchView: View {
             .controlSize(.large)
             .padding(5)
             
-            Button {
-                
-            } label: {
-                Image(systemName: "magnifyingglass")
-                    .padding(.horizontal, 2)
-                Text("Chercher par adresse")
-            }
-            .padding(5)
-            .padding(.bottom, 10)
         }
         .navigationTitle("Choisir un lieu")
         .onAppear {
             LocationManager.shared.setLocationManagerDelegate(delegate: mapViewModel)
             LocationManager.shared.requestLocationPermission()
-
-        }        
+        }
+        .onChange(of: mapViewModel.searchQuery) { value in
+            let delay = 0.3
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                mapViewModel.searchWithQuery()
+            }
+        }
     }
 }
 

@@ -21,6 +21,17 @@ struct MapView: UIViewRepresentable {
         
         view.showsUserLocation = true
         view.delegate = context.coordinator
+        view.showsCompass = true
+        view.showsScale = true
+        
+        let button = MKUserTrackingButton(mapView: view)
+        button.layer.backgroundColor = UIColor(white: 1, alpha: 0.8).cgColor
+        button.layer.cornerRadius = button.layer.frame.height / 2
+        button.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(button)
+        
+        NSLayoutConstraint.activate([button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10),
+                                         button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)])
         
         return view
     }

@@ -17,50 +17,50 @@ class LocationManager: NSObject {
         
     }
     
-    public func findLocations(with query: String, completion: @escaping (([LandmarkLocation]) -> Void)) {
-        let geocoder = CLGeocoder()
-                
-        geocoder.geocodeAddressString(query) { places, error in
-            guard let places = places else {
-                completion([])
-                return
-            }
-            
-            let models: [LandmarkLocation] = places.compactMap { place in
-                var name = ""
-                
-                if let locationName = place.name {
-                    name += locationName
-                }
-                
-                if let adminRegion = place.administrativeArea {
-                    name += ", \(adminRegion)"
-                }
-                
-                if let locality = place.locality {
-                    name += ", \(locality)"
-                }
-                
-                if let country = place.country {
-                    name += ", \(country)"
-                }
-                
-                var region: MKCoordinateRegion? = nil
-                
-                if let coordinates = place.location?.coordinate {
-                    region = MKCoordinateRegion(center: coordinates, span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
-                }
-                
-                let result = LandmarkLocation(title: name,
-                                              coordinate: place.location?.coordinate,
-                                              region: region)
-                
-                return result
-            }
-            
-            completion(models)
-        }
-    }
+//    public func findLocations(with query: String, completion: @escaping (([LandmarkLocation]) -> Void)) {
+//        let geocoder = CLGeocoder()
+//                
+//        geocoder.geocodeAddressString(query) { places, error in
+//            guard let places = places else {
+//                completion([])
+//                return
+//            }
+//            
+//            let models: [LandmarkLocation] = places.compactMap { place in
+//                var name = ""
+//                
+//                if let locationName = place.name {
+//                    name += locationName
+//                }
+//                
+//                if let adminRegion = place.administrativeArea {
+//                    name += ", \(adminRegion)"
+//                }
+//                
+//                if let locality = place.locality {
+//                    name += ", \(locality)"
+//                }
+//                
+//                if let country = place.country {
+//                    name += ", \(country)"
+//                }
+//                
+//                var region: MKCoordinateRegion? = nil
+//                
+//                if let coordinates = place.location?.coordinate {
+//                    region = MKCoordinateRegion(center: coordinates, span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+//                }
+//                
+//                let result = LandmarkLocation(title: name,
+//                                              coordinate: place.location?.coordinate,
+//                                              region: region)
+//                
+//                return result
+//            }
+//            
+//            completion(models)
+//        }
+//    }
 }
 
 extension LocationManager {
