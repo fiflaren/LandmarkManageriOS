@@ -13,6 +13,7 @@ struct LandmarkListView: View {
     
     @State private var selection: NSManagedObjectID?
     @State private var searchText: String = ""
+    @State private var showAddLandmarkModal: Bool = false
     
     var body: some View {
         Group {
@@ -36,11 +37,26 @@ struct LandmarkListView: View {
         }
         .navigationTitle(Text("categoryList_title", comment: "categoryList_title"))
         //        .accessibilityRotor("Catégories", entries: searchResults, entryLabel: \.name)
+        .toolbar(content: {
+            addButton
+        })
         .alert(item: $landmarkViewModel.error) { error in
             Alert(title: Text("Erreur"), message: Text(error.localizedDescription))
         }
+        .sheet(isPresented: $showAddLandmarkModal) {
+            AddLandmarkView(showModal: $showAddLandmarkModal)
+        }
     }
    
+    private var addButton: some View {
+        return AnyView(
+            Button {
+                showAddLandmarkModal.toggle()
+            } label: {
+                Image(systemName: "plus")
+            }
+        )
+    }
     
     private var searchResults: [LandmarkModel] {
         if searchText.isEmpty {

@@ -9,9 +9,27 @@ import SwiftUI
 
 @main
 struct LandmarkManagerApp: App {
+    @State private var finishedLoading: Bool = false
+    
+    private func displayMainContent() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            withAnimation {
+                self.finishedLoading.toggle()
+            }
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
-            CategoryListView()
+            if finishedLoading {
+                CategoryListView()
+                
+            } else {
+                SplashScreenView()
+                    .onAppear {
+                        displayMainContent()
+                    }
+            }
         }
     }
 }

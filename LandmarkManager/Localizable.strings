@@ -6,15 +6,11 @@
   
 */
 
+// categories
+
 "categoryList_title" = "Catégories";
 "categoryList_searchPlaceholder" = "Trouver une catégorie…";
 "categoryList_emptyText" = "Aucune catégorie pour le moment…";
-
-
-"landmarkList_title" = "Lieux";
-"landmarkList_searchPlaceholder" = "Trouver un lieu…";
-"landmarkList_emptyText" = "Aucun lieu pour le moment…";
-
 
 "newCategory_title" = "Nouvelle catégorie";
 "newCategory_subTitle" = "Ajouter une catégorie à la liste";
@@ -27,6 +23,18 @@
 "editCategory_textFieldPlaceholder" = "Nom de la catégorie…";
 "editCategory_saveActionTitle" = "Modifier";
 
+// landmarks
+
+"landmarkList_title" = "Lieux";
+"landmarkList_searchPlaceholder" = "Trouver un lieu…";
+"landmarkList_emptyText" = "Aucun lieu pour le moment…";
+
+"newLandmarkList_title" = "Ajouter un lieu";
+"landmarkList_searchPlaceholder" = "Trouver un lieu…";
+"landmarkList_emptyText" = "Aucun lieu pour le moment…";
+
+
+// general
 
 "cancelActionTitle" = "Annuler";
 "editActionTitle" = "Modifier";
