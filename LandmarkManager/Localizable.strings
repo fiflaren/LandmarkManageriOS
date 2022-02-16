@@ -38,5 +38,6 @@
 
 "cancelActionTitle" = "Annuler";
 "editActionTitle" = "Modifier";
+"chooseActionTitle" = " Choisir";
 "deleteActionTitle" = "Supprimer";
 

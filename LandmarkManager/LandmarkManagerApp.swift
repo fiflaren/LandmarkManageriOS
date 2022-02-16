@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 @main
 struct LandmarkManagerApp: App {
     @State private var finishedLoading: Bool = false
+    
     
     private func displayMainContent() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -17,6 +19,10 @@ struct LandmarkManagerApp: App {
                 self.finishedLoading.toggle()
             }
         }
+    }
+    
+    private func requestLocation() {
+        
     }
     
     var body: some Scene {
@@ -33,3 +39,27 @@ struct LandmarkManagerApp: App {
         }
     }
 }
+
+//class LandmarkManagerAppLocationManager {
+//    private var locationManager: CLLocationManager = CLLocationManager()
+//
+//    init() {
+//        locationManager.delegate = self
+//    }
+//    
+//    func requestLocationAccess() {
+//        locationManager.requestWhenInUseAuthorization()
+//    }
+//}
+//
+//extension LandmarkManagerAppLocationManager: CLLocationManagerDelegate {
+//    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+//        if status == .authorizedAlways {
+//            if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
+//                if CLLocationManager.isRangingAvailable() {
+//                    // do stuff
+//                }
+//            }
+//        }
+//    }
+//}
