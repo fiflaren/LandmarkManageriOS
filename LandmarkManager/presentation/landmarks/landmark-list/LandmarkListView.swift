@@ -14,25 +14,39 @@ struct LandmarkListView: View {
     @State private var selection: NSManagedObjectID?
     @State private var searchText: String = ""
     @State private var showAddLandmarkModal: Bool = false
+    @State private var selectedTabIndex: Int = 0
     
     var body: some View {
         Group {
             if landmarkViewModel.landmarks.count == 0 {
                 Text("landmarkList_emptyText")
             } else {
-                List {
-                    ForEach(searchResults) { landmark in
-                        let index = landmarkViewModel.landmarks.firstIndex(where: { $0.objectId == landmark.objectId })!
-                        
-                        NavigationLink(tag: landmark.objectId, selection: $selection) {
-                            Text("test")
-                        } label: {
-                            LandmarkListRow(landmark: landmark)
-                        }
-                    
-                    }
+                Picker("What is your favorite color?", selection: $selectedTabIndex) {
+                    Text("Liste").tag(0)
+                    Text("Carte").tag(1)
                 }
-                .searchable(text: $searchText, prompt: "landmarkList_searchPlaceholder".localized)
+                .pickerStyle(.segmented)
+                .padding(.horizontal)
+                
+                if selectedTabIndex == 0 {
+                    List {
+                        ForEach(searchResults) { landmark in
+                            let index = landmarkViewModel.landmarks.firstIndex(where: { $0.objectId == landmark.objectId })!
+                            
+                            NavigationLink(tag: landmark.objectId, selection: $selection) {
+                                Text("test")
+                            } label: {
+                                LandmarkListRow(landmark: landmark)
+                            }
+                        
+                        }
+                    }
+                    .searchable(text: $searchText, prompt: "landmarkList_searchPlaceholder".localized)
+                } else {
+                    LandmarkMapView()
+                        .environmentObject(landmarkViewModel)
+                }
+                
             }
         }
         .navigationTitle(Text("landmarkList_title", comment: "landmarkList_title"))

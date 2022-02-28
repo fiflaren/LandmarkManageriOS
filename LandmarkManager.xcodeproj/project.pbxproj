@@ -32,6 +32,8 @@
 		94808BC127B3CE3100CFC488 /* CategoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94808BC027B3CE3100CFC488 /* CategoryListView.swift */; };
 		94808BC327B3CE8000CFC488 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94808BC227B3CE8000CFC488 /* CategoryListViewModel.swift */; };
 		948E47F327CCFD9C007B4409 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E47F227CCFD9C007B4409 /* Coordinate.swift */; };
+		948E47F627CD243A007B4409 /* LandmarkMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E47F527CD243A007B4409 /* LandmarkMapView.swift */; };
+		948E47F827CD243E007B4409 /* LandmarkMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E47F727CD243E007B4409 /* LandmarkMapViewModel.swift */; };
 		94916DF927BC020C00CB5FB1 /* AddLandmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94916DF827BC020C00CB5FB1 /* AddLandmarkView.swift */; };
 		94D73EBF27BCE2030036E114 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D73EBE27BCE2030036E114 /* TextView.swift */; };
 		94D73EC127BCE3A00036E114 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D73EC027BCE3A00036E114 /* ImagePicker.swift */; };
@@ -72,6 +74,8 @@
 		94808BC027B3CE3100CFC488 /* CategoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListView.swift; sourceTree = "<group>"; };
 		94808BC227B3CE8000CFC488 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
 		948E47F227CCFD9C007B4409 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
+		948E47F527CD243A007B4409 /* LandmarkMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkMapView.swift; sourceTree = "<group>"; };
+		948E47F727CD243E007B4409 /* LandmarkMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkMapViewModel.swift; sourceTree = "<group>"; };
 		94916DF827BC020C00CB5FB1 /* AddLandmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLandmarkView.swift; sourceTree = "<group>"; };
 		94D73EBE27BCE2030036E114 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		94D73EC027BCE3A00036E114 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -254,9 +258,19 @@
 			path = categories;
 			sourceTree = "<group>";
 		};
+		948E47F427CD2426007B4409 /* landmark-map */ = {
+			isa = PBXGroup;
+			children = (
+				948E47F727CD243E007B4409 /* LandmarkMapViewModel.swift */,
+				948E47F527CD243A007B4409 /* LandmarkMapView.swift */,
+			);
+			path = "landmark-map";
+			sourceTree = "<group>";
+		};
 		94916DF627BC01EB00CB5FB1 /* landmark-list */ = {
 			isa = PBXGroup;
 			children = (
+				948E47F427CD2426007B4409 /* landmark-map */,
 				943754E527B41B6E00C9DC56 /* LandmarkListView.swift */,
 				943754E427B41B6D00C9DC56 /* LandmarkListViewModel.swift */,
 				943754E327B41B6D00C9DC56 /* LandmarkListRow.swift */,
@@ -379,6 +393,7 @@
 				943754D027B3F1C900C9DC56 /* UIAlertController+.swift in Sources */,
 				943754CB27B3DB7500C9DC56 /* Date+.swift in Sources */,
 				94D73EEA27BD0B5C0036E114 /* AddLandmarkViewModel.swift in Sources */,
+				948E47F627CD243A007B4409 /* LandmarkMapView.swift in Sources */,
 				943754E927B4233B00C9DC56 /* LandmarkRepository.swift in Sources */,
 				941BFAE127B4260A009A384B /* LandmarkListViewModel.swift in Sources */,
 				94D73EF327BD2CAF0036E114 /* LandmarkLocationMapViewModel.swift in Sources */,
@@ -393,6 +408,7 @@
 				94D73EBF27BCE2030036E114 /* TextView.swift in Sources */,
 				94D73EC127BCE3A00036E114 /* ImagePicker.swift in Sources */,
 				941BFAE227B4260A009A384B /* LandmarkListView.swift in Sources */,
+				948E47F827CD243E007B4409 /* LandmarkMapViewModel.swift in Sources */,
 				94808BC127B3CE3100CFC488 /* CategoryListView.swift in Sources */,
 				94D73EE827BD08320036E114 /* LocationManager.swift in Sources */,
 			);
@@ -532,6 +548,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -562,6 +579,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

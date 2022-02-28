@@ -33,6 +33,16 @@ class Mapper {
     }
     
     func mapLandmarkDbEntityToModel(entity: Landmark, id: Int) -> LandmarkModel {
+        var coordinateModel: CoordinateModel? = nil
+        if let coordinate = entity.coordinate {
+            coordinateModel = mapCoordinateDbEntityToModel(entity: coordinate)
+        }
+        
+//        var categoryModel: CategoryModel? = nil
+//        if let category = entity.category {
+//            categoryModel = mapCategoryDbEntityToModel(entity: category, id: 0)
+//        }
+        
         return LandmarkModel(
             id: id,
             objectId: entity.objectID,
@@ -41,7 +51,13 @@ class Mapper {
             image: UIImage(data: entity.image!) ?? UIImage(),
             isFavorite: entity.isFavorite,
             creationDate: entity.creationDate!,
-            modificationDate: entity.modificationDate!
+            modificationDate: entity.modificationDate!,
+//            category: categoryModel,
+            location: coordinateModel
         )
+    }
+    
+    func mapCoordinateDbEntityToModel(entity: Coordinate) -> CoordinateModel {
+        return CoordinateModel(lat: entity.latitude, lng: entity.longitude)
     }
 }

@@ -166,7 +166,7 @@ extension CoreDataManagerImpl {
     
     func addCoordinate(lat: Double, lng: Double) -> Coordinate {
         let coordinate = Coordinate(context: container.viewContext)
-        coordinate.longitude = lat
+        coordinate.latitude = lat
         coordinate.longitude = lng
         
         saveContext()

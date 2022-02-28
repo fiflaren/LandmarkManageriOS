@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import CoreData
+import CoreLocation
 
 struct LandmarkModel: Hashable, Identifiable {
     var id: Int
@@ -20,4 +21,12 @@ struct LandmarkModel: Hashable, Identifiable {
     var modificationDate: Date
     var category: CategoryModel?
     var location: CoordinateModel?
+    
+    var mapLocation: CLLocationCoordinate2D {
+        guard let location = location else {
+            return CLLocationCoordinate2D.init()
+        }
+
+        return CLLocationCoordinate2D(latitude: location.lat, longitude: location.lng)
+    }
 }

@@ -38,6 +38,7 @@ class CategoryRepository {
     func fetchCategories(searchQuery: String? = nil) {
         do {
             categories = try coreDataManager.fetchCategories(searchQuery: searchQuery)
+            print(categories)
         } catch {
             fatalError()
         }

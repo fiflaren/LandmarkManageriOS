@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import CoreLocation
 
 @MainActor class LandmarkListViewModel: ObservableObject {
    
     var selectedCategory: CategoryModel
     @Published var landmarks = [LandmarkModel]()
+    @Published var mapLandmarks = [LandmarkLocation]()
     @Published var isLoading: Bool = true
     @Published var selectedLandmark: LandmarkModel?
     @Published var error: ErrorDisplayWrapper?
@@ -39,29 +41,10 @@ import Foundation
         }
         
         self.landmarks = newLandmarks
+        
+        self.mapLandmarks = landmarks.map { landmark in
+            LandmarkLocation(title: landmark.title, place: nil, coordinates: landmark.mapLocation)
+        }
     }
-    
-//    func addCategory(name: String) {
-//        categoryRepository.addCategory(name: name)
-//        fetchCategories()
-//    }
-//
-//    func editCategory(categoryIndex: Int, newName: String) {
-//        do {
-//            try categoryRepository.editCategory(categoryIndex: categoryIndex, newName: newName)
-//            fetchCategories()
-//        } catch(let error) {
-//            self.error = ErrorDisplayWrapper.specificError(error)
-//        }
-//    }
-//
-//    func deleteCategory(categoryIndex: Int) {
-//        do {
-//            try categoryRepository.deleteCategory(categoryIndex: categoryIndex)
-//            fetchCategories()
-//        } catch(let error) {
-//            self.error = ErrorDisplayWrapper.specificError(error)
-//        }
-//    }
 }
 
