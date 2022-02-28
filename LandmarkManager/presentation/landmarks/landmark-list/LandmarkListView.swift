@@ -18,7 +18,7 @@ struct LandmarkListView: View {
     var body: some View {
         Group {
             if landmarkViewModel.landmarks.count == 0 {
-                Text("categoryList_emptyText")
+                Text("landmarkList_emptyText")
             } else {
                 List {
                     ForEach(searchResults) { landmark in
@@ -32,20 +32,22 @@ struct LandmarkListView: View {
                     
                     }
                 }
-                .searchable(text: $searchText, prompt: "Trouver une catégorie…".localized)
+                .searchable(text: $searchText, prompt: "landmarkList_searchPlaceholder".localized)
             }
         }
-        .navigationTitle(Text("categoryList_title", comment: "categoryList_title"))
-        //        .accessibilityRotor("Catégories", entries: searchResults, entryLabel: \.name)
+        .navigationTitle(Text("landmarkList_title", comment: "landmarkList_title"))
         .toolbar(content: {
             addButton
         })
         .alert(item: $landmarkViewModel.error) { error in
-            Alert(title: Text("Erreur"), message: Text(error.localizedDescription))
+            Alert(title: Text("errorActionTitle"), message: Text(error.localizedDescription))
         }
         .sheet(isPresented: $showAddLandmarkModal) {
             AddLandmarkView(showModal: $showAddLandmarkModal)
         }
+        .onChange(of: showAddLandmarkModal, perform: { newValue in
+            landmarkViewModel.fetchLandmarks()
+        })
     }
    
     private var addButton: some View {

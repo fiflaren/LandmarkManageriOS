@@ -11,12 +11,14 @@
 "categoryList_title" = "Catégories";
 "categoryList_searchPlaceholder" = "Trouver une catégorie…";
 "categoryList_emptyText" = "Aucune catégorie pour le moment…";
+"categoryList_notFound" = "La catégorie est introuvable";
+"categoryList_failedFetchingFromDb" = "Le chargement des catégories a echoué";
+
 
 "newCategory_title" = "Nouvelle catégorie";
 "newCategory_subTitle" = "Ajouter une catégorie à la liste";
 "newCategory_textFieldPlaceholder" = "Nom de la catégorie…";
 "newCategory_saveActionTitle" = "Ajouter";
-
 
 "editCategory_title" = "Modifier une catégorie";
 "editCategory_subTitle" = "Modifier la catégorie selectionnée";
@@ -28,8 +30,13 @@
 "landmarkList_title" = "Lieux";
 "landmarkList_searchPlaceholder" = "Trouver un lieu…";
 "landmarkList_emptyText" = "Aucun lieu pour le moment…";
+"landmarkList_notFound" = "Le lieu est introuvable";
+"landmarkList_badImage" = "L'image selectionnée n'est pas valide";
 
 "newLandmarkList_title" = "Ajouter un lieu";
+"newLandmarkList_emptyLocation" = "Vous devez obligatoirement sélectionner un emplacement pour créer ce lieu";
+"newLandmarkList_failedCreating" = "Une erreur est survenue lors de la création du lieu";
+
 "landmarkList_searchPlaceholder" = "Trouver un lieu…";
 "landmarkList_emptyText" = "Aucun lieu pour le moment…";
 
@@ -37,7 +44,9 @@
 // general
 
 "cancelActionTitle" = "Annuler";
+"addActionTitle" = "Ajouter";
 "editActionTitle" = "Modifier";
 "chooseActionTitle" = " Choisir";
 "deleteActionTitle" = "Supprimer";
+"errorActionTitle" = "Erreur";
 

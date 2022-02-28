@@ -52,8 +52,8 @@ import Foundation
         }
     }
     
-    func selectCategory(category: CategoryModel) {
-        categoryRepository.selectedCategoryId = category.objectId
+    func getCategoryLandmarks(category: CategoryModel) -> [LandmarkModel] {
+        return category.landmarks
     }
 }
 

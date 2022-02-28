@@ -20,12 +20,21 @@ import Foundation
     init(selectedCategory: CategoryModel) {
         self.selectedCategory = selectedCategory
         CategoryRepository.shared.selectedCategoryId = selectedCategory.objectId
+        landmarkRepository.fetchLandmarks(searchQuery: nil)
         fetchLandmarks()
     }
     
     func fetchLandmarks() {
         var newLandmarks: [LandmarkModel] = []
         for (index,landmark) in landmarkRepository.landmarks.enumerated() {
+            guard let category = landmark.category else {
+                continue
+            }
+            
+            if category.objectID != selectedCategory.objectId {
+                continue
+            }
+            
             newLandmarks.append(Mapper.shared.mapLandmarkDbEntityToModel(entity: landmark, id: index))
         }
         

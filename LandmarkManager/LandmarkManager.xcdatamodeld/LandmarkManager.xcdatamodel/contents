@@ -9,13 +9,13 @@
     <entity name="Coordinate" representedClassName="Coordinate" syncable="YES" codeGenerationType="class">
         <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <relationship name="landmarks" maxCount="1" deletionRule="Deny" destinationEntity="Landmark" inverseName="coordinate" inverseEntity="Landmark"/>
+        <relationship name="landmarks" optional="YES" maxCount="1" deletionRule="Deny" destinationEntity="Landmark" inverseName="coordinate" inverseEntity="Landmark"/>
     </entity>
     <entity name="Landmark" representedClassName="Landmark" syncable="YES" codeGenerationType="class">
         <attribute name="creationDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="desc" attributeType="String"/>
         <attribute name="image" attributeType="Binary"/>
-        <attribute name="isFavorite" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isFavorite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="modificationDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String"/>
         <relationship name="category" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="landmarks" inverseEntity="Category"/>

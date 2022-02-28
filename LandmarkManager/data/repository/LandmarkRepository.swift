@@ -6,14 +6,27 @@
 //
 
 import Foundation
+import UIKit
 
 enum LandmarkError: Error, LocalizedError {
     case notFound
+    case noLocation
+    case badImage
+    case failedCreating
+    case emptyLocation
     
     var errorDescription: String? {
         switch self {
         case .notFound:
-            return NSLocalizedString("Category not found", comment: "")
+            return "categoryList_notFound".localized
+        case .noLocation:
+            return "landmarkList_notFound".localized
+        case .badImage:
+            return "landmarkList_badImage".localized
+        case .failedCreating:
+            return "newLandmarkList_failedCreating".localized
+        case .emptyLocation:
+            return "newLandmarkList_emptyLocation".localized
         }
     }
 }
@@ -34,10 +47,19 @@ class LandmarkRepository {
         landmarks = coreDataManager.fetchLandmarks(searchQuery: searchQuery)
     }
     
-//    func addCategory(name: String) {
-//        categories.append(coreDataManager.addCategory(name: name))
-//    }
-//
+    func addLandmark(name: String, description: String, image: UIImage, coordinate: CoordinateModel, category: CategoryModel) throws {
+        guard let imageData = image.pngData() else {
+            throw LandmarkError.badImage
+        }
+        
+        guard let landmark = coreDataManager.addLandmark(name: name, description: description, image: imageData, coordinate: coordinate, category: category) else {
+            throw LandmarkError.failedCreating
+        }
+        
+        landmarks.append(landmark)
+    }
+    
+
 //    func deleteCategory(categoryIndex: Int) throws {
 //        coreDataManager.deleteCategory(category: categories[categoryIndex])
 //        categories.remove(at: categoryIndex)

@@ -41,7 +41,7 @@ class CoreDataManagerImpl: CoreDataManager {
 // MARK: - Categories
 
 extension CoreDataManagerImpl {
-    func fetchCategories(searchQuery: String? = nil) -> [Category] {
+    func fetchCategories(searchQuery: String? = nil) throws -> [Category] {
         let fetchRequest = Category.fetchRequest()
         
         let sortDescription = NSSortDescriptor(keyPath: \Category.name, ascending: true)
@@ -56,11 +56,21 @@ extension CoreDataManagerImpl {
             let result = try container.viewContext.fetch(fetchRequest)
             return result
         } catch {
-            // TODO : replace fatal error with proper error handling
-            fatalError(error.localizedDescription)
+            throw CategoryError.failedFetchingFromDb
         }
     }
-
+    
+    func fetchCategoryById(id: NSManagedObjectID) throws -> Category? {
+        do {
+            guard let result = try container.viewContext.existingObject(with: id) as? Category else {
+                return nil
+            }
+            return result
+        } catch {
+            throw CategoryError.notFound
+        }
+    }
+    
     func addCategory(name: String) -> Category {
         let date = Date()
         
@@ -107,4 +117,60 @@ extension CoreDataManagerImpl {
         }
     }
 
+    func addLandmark(name: String, description: String, image: Data, coordinate: CoordinateModel, category: CategoryModel) -> Landmark? {
+        let date = Date()
+        
+        var cat: Category
+        let coord: Coordinate = addCoordinate(lat: coordinate.lat, lng: coordinate.lng)
+        
+        do {
+            guard let categoryWithId = try fetchCategoryById(id: category.objectId) else {
+                return nil
+            }
+            
+            cat = categoryWithId
+        } catch {
+            return nil
+        }
+        
+        
+        let landmark = Landmark(context: container.viewContext)
+        landmark.title = name
+        landmark.desc = description
+        landmark.creationDate = date
+        landmark.modificationDate = date
+        landmark.category = cat
+        landmark.coordinate = coord
+        landmark.image = image
+        
+        saveContext()
+        
+        return landmark
+    }
+}
+
+// MARK: - Coordinates
+
+extension CoreDataManagerImpl {
+    func fetchCoordinateById(id: NSManagedObjectID) throws -> Coordinate? {
+        do {
+            guard let result = try container.viewContext.existingObject(with: id) as? Coordinate else {
+                return nil
+            }
+            return result
+        } catch {
+            // TODO : replace with coordinate error
+            throw CategoryError.notFound
+        }
+    }
+    
+    func addCoordinate(lat: Double, lng: Double) -> Coordinate {
+        let coordinate = Coordinate(context: container.viewContext)
+        coordinate.longitude = lat
+        coordinate.longitude = lng
+        
+        saveContext()
+        
+        return coordinate
+    }
 }

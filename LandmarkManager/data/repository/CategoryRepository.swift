@@ -10,11 +10,14 @@ import CoreData
 
 enum CategoryError: Error, LocalizedError {
     case notFound
+    case failedFetchingFromDb
     
     var errorDescription: String? {
         switch self {
         case .notFound:
-            return NSLocalizedString("Category not found", comment: "")
+            return "categoryList_notFound".localized
+        case .failedFetchingFromDb:
+            return "categoryList_failedFetchingFromDb".localized
         }
     }
 }
@@ -33,7 +36,11 @@ class CategoryRepository {
     }
     
     func fetchCategories(searchQuery: String? = nil) {
-        categories = coreDataManager.fetchCategories(searchQuery: searchQuery)
+        do {
+            categories = try coreDataManager.fetchCategories(searchQuery: searchQuery)
+        } catch {
+            fatalError()
+        }
     }
     
     func addCategory(name: String) {

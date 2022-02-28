@@ -95,7 +95,19 @@ struct AddLandmarkView: View {
                     Button {
                         showModal.toggle()
                     } label: {
-                        Image(systemName: "xmark")
+                        //Image(systemName: "xmark")
+                        Text("cancelActionTitle")
+                    }
+                }
+                
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button {
+                        let addResult = addLandmarkViewModel.addLandmark(name: landmarkName, description: landmarkDescription, image: landmarkImage ?? UIImage())
+                        if (addResult) {
+                            showModal = false
+                        }
+                    } label: {
+                        Text("addActionTitle")
                     }
                 }
                 
@@ -114,6 +126,9 @@ struct AddLandmarkView: View {
             })
             .sheet(isPresented: $showingImagePicker) {
                 ImagePicker(image: $landmarkImage)
+            }
+            .alert(item: $addLandmarkViewModel.error) { error in
+                Alert(title: Text("errorActionTitle"), message: Text(error.localizedDescription))
             }
         }
     }

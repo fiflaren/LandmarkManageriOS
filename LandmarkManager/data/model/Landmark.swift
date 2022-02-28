@@ -18,4 +18,6 @@ struct LandmarkModel: Hashable, Identifiable {
     var isFavorite: Bool
     var creationDate: Date
     var modificationDate: Date
+    var category: CategoryModel?
+    var location: CoordinateModel?
 }
