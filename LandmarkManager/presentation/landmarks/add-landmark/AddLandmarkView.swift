@@ -22,7 +22,7 @@ struct AddLandmarkView: View {
     
     @FocusState private var focusedNameField: Bool
     @FocusState private var focusedDescriptionField: Bool
-        
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -31,9 +31,16 @@ struct AddLandmarkView: View {
                         TextField("Titre du lieu", text: $landmarkName)
                             .focused($focusedNameField)
                         
-                        TextEditor(text: $landmarkDescription)
-                            .focused($focusedDescriptionField)
-                        
+                        ZStack(alignment: .leading) {
+                            // placeholder text for the TextEditor which isn't natively supported by SwiftUI
+                            if landmarkDescription.isEmpty {
+                                Text("Description du lieu…")
+                                    .opacity(landmarkDescription.isEmpty ? 0.25 : 1)
+                            }
+                            
+                            TextEditor(text: $landmarkDescription)
+                                .focused($focusedDescriptionField)
+                        }
                     }
                     
                     Section(header: Text("Image")) {
@@ -61,10 +68,22 @@ struct AddLandmarkView: View {
                                 LandmarkLocationSearchView()
                                     .environmentObject(addLandmarkViewModel)
                             } label: {
-                            
+                                
                             }
                             
                         }
+                        
+                    }
+                    
+                    Section(header: Text("Catégorie")) {
+                        VStack {
+                            Picker(selection: $addLandmarkViewModel.selectedCategoryIndex, label: Text(addLandmarkViewModel.categories[addLandmarkViewModel.selectedCategoryIndex].name)) {
+                                ForEach(0 ..< addLandmarkViewModel.categories.count) { index in
+                                    Text(addLandmarkViewModel.categories[index].name)
+                                }
+                            }
+                            //Text(addLandmarkViewModel.categories[landmarkCategoryIndex])
+                        }.padding()
                         
                     }
                 }
@@ -79,6 +98,15 @@ struct AddLandmarkView: View {
                         Image(systemName: "xmark")
                     }
                 }
+                
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    
+                    Button("Terminé") {
+                        focusedNameField = false
+                        focusedDescriptionField = false
+                    }
+                }
             })
             .onChange(of: landmarkImage) { _ in loadImage() }
             .onChange(of: addLandmarkViewModel.chosenLocation, perform: { location in
@@ -87,15 +115,6 @@ struct AddLandmarkView: View {
             .sheet(isPresented: $showingImagePicker) {
                 ImagePicker(image: $landmarkImage)
             }
-            // to also allow swipes on items (theoretically)
-            .simultaneousGesture(DragGesture().onChanged({ _ in
-                focusedNameField = false
-                focusedDescriptionField = false
-            }))
-            // dissmis on tap as well
-            //        .onTapGesture {
-            //            focusedNameField = false
-            //        }
         }
     }
     

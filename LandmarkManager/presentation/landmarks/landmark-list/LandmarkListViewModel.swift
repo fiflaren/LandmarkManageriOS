@@ -19,6 +19,7 @@ import Foundation
     
     init(selectedCategory: CategoryModel) {
         self.selectedCategory = selectedCategory
+        CategoryRepository.shared.selectedCategoryId = selectedCategory.objectId
         fetchLandmarks()
     }
     

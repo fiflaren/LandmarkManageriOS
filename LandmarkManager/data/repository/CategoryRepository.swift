@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 enum CategoryError: Error, LocalizedError {
     case notFound
@@ -20,6 +21,7 @@ enum CategoryError: Error, LocalizedError {
 
 class CategoryRepository {
     var categories: [Category] = []
+    var selectedCategoryId: NSManagedObjectID? = nil
 
     private var coreDataManager: CategoryCoreDataManager
     

@@ -24,11 +24,13 @@ struct CategoryListView: View {
                         ForEach(searchResults) { category in
                             let index = categoryViewModel.categories.firstIndex(where: { $0.objectId == category.objectId })!
                             
+
                             NavigationLink(tag: category.objectId, selection: $selection) {
                                 LandmarkListView(landmarkViewModel: LandmarkListViewModel(selectedCategory: category))
                             } label: {
                                 CategoryListRow(category: category)
                             }
+                            
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button {
                                     onDelete(index: index)

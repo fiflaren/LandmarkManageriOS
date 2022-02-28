@@ -51,5 +51,9 @@ import Foundation
             self.error = ErrorDisplayWrapper.specificError(error)
         }
     }
+    
+    func selectCategory(category: CategoryModel) {
+        categoryRepository.selectedCategoryId = category.objectId
+    }
 }
 
