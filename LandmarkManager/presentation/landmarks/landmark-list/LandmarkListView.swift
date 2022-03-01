@@ -18,7 +18,10 @@ struct LandmarkListView: View {
     
     var body: some View {
         Group {
-            if landmarkViewModel.landmarks.count == 0 {
+            if landmarkViewModel.isLoading {
+                ProgressView()
+            } else
+            if landmarkViewModel.isLoading == false && landmarkViewModel.landmarks.count == 0 {
                 Text("landmarkList_emptyText")
             } else {
                 Picker("What is your favorite color?", selection: $selectedTabIndex) {
@@ -34,7 +37,7 @@ struct LandmarkListView: View {
                             let index = landmarkViewModel.landmarks.firstIndex(where: { $0.objectId == landmark.objectId })!
                             
                             NavigationLink(tag: landmark.objectId, selection: $selection) {
-                                Text("test")
+                                LandmarkDetails(landmark: landmark)
                             } label: {
                                 LandmarkListRow(landmark: landmark)
                             }
@@ -43,8 +46,7 @@ struct LandmarkListView: View {
                     }
                     .searchable(text: $searchText, prompt: "landmarkList_searchPlaceholder".localized)
                 } else {
-                    LandmarkMapView()
-                        .environmentObject(landmarkViewModel)
+                    LandmarkMapView(showDetailsOnTap: true, mapLandmarks: landmarkViewModel.landmarks)
                 }
                 
             }
@@ -62,6 +64,9 @@ struct LandmarkListView: View {
         .onChange(of: showAddLandmarkModal, perform: { newValue in
             landmarkViewModel.fetchLandmarks()
         })
+        .onAppear {
+            landmarkViewModel.loadLandmarks()
+        }
     }
    
     private var addButton: some View {

@@ -29,4 +29,8 @@ struct LandmarkModel: Hashable, Identifiable {
 
         return CLLocationCoordinate2D(latitude: location.lat, longitude: location.lng)
     }
+    
+    var landmarkLocation: LandmarkLocation {
+        return LandmarkLocation(title: self.title, place: nil, coordinates: self.mapLocation)
+    }
 }

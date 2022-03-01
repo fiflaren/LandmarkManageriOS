@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		940571FA27CE299100B6C99A /* Text+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940571F927CE299000B6C99A /* Text+.swift */; };
 		941BFAE027B4260A009A384B /* LandmarkListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754E327B41B6D00C9DC56 /* LandmarkListRow.swift */; };
 		941BFAE127B4260A009A384B /* LandmarkListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754E427B41B6D00C9DC56 /* LandmarkListViewModel.swift */; };
 		941BFAE227B4260A009A384B /* LandmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754E527B41B6E00C9DC56 /* LandmarkListView.swift */; };
@@ -24,6 +25,7 @@
 		943754DF27B40FDE00C9DC56 /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754DE27B40FDE00C9DC56 /* Mapper.swift */; };
 		943754E727B41C6900C9DC56 /* Landmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754E627B41C6900C9DC56 /* Landmark.swift */; };
 		943754E927B4233B00C9DC56 /* LandmarkRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943754E827B4233B00C9DC56 /* LandmarkRepository.swift */; };
+		943C73A927CE235700C30DE6 /* LandmarkDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943C73A827CE235700C30DE6 /* LandmarkDetails.swift */; };
 		94808BAA27B3CCD100CFC488 /* LandmarkManagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94808BA927B3CCD100CFC488 /* LandmarkManagerApp.swift */; };
 		94808BAE27B3CCD400CFC488 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94808BAD27B3CCD400CFC488 /* Assets.xcassets */; };
 		94808BB127B3CCD400CFC488 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94808BB027B3CCD400CFC488 /* Preview Assets.xcassets */; };
@@ -48,6 +50,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		940571F927CE299000B6C99A /* Text+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+.swift"; sourceTree = "<group>"; };
 		943754BD27B3D35700C9DC56 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		943754C027B3D3AA00C9DC56 /* CoreDataManagerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManagerImpl.swift; sourceTree = "<group>"; };
 		943754C327B3D69200C9DC56 /* CategoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRepository.swift; sourceTree = "<group>"; };
@@ -65,6 +68,7 @@
 		943754E527B41B6E00C9DC56 /* LandmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkListView.swift; sourceTree = "<group>"; };
 		943754E627B41C6900C9DC56 /* Landmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Landmark.swift; sourceTree = "<group>"; };
 		943754E827B4233B00C9DC56 /* LandmarkRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkRepository.swift; sourceTree = "<group>"; };
+		943C73A827CE235700C30DE6 /* LandmarkDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkDetails.swift; sourceTree = "<group>"; };
 		94808BA627B3CCD100CFC488 /* LandmarkManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LandmarkManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94808BA927B3CCD100CFC488 /* LandmarkManagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkManagerApp.swift; sourceTree = "<group>"; };
 		94808BAD27B3CCD400CFC488 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -124,6 +128,7 @@
 			children = (
 				943754CA27B3DB7500C9DC56 /* Date+.swift */,
 				943754D327B3F49B00C9DC56 /* String+.swift */,
+				940571F927CE299000B6C99A /* Text+.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -170,10 +175,19 @@
 		943754E227B41B3F00C9DC56 /* landmarks */ = {
 			isa = PBXGroup;
 			children = (
+				943C73A727CE233400C30DE6 /* landmark-details */,
 				94916DF727BC01F800CB5FB1 /* add-landmark */,
 				94916DF627BC01EB00CB5FB1 /* landmark-list */,
 			);
 			path = landmarks;
+			sourceTree = "<group>";
+		};
+		943C73A727CE233400C30DE6 /* landmark-details */ = {
+			isa = PBXGroup;
+			children = (
+				943C73A827CE235700C30DE6 /* LandmarkDetails.swift */,
+			);
+			path = "landmark-details";
 			sourceTree = "<group>";
 		};
 		94808B9D27B3CCD100CFC488 = {
@@ -384,6 +398,7 @@
 				948E47F327CCFD9C007B4409 /* Coordinate.swift in Sources */,
 				943754C827B3D9AA00C9DC56 /* CategoryListRow.swift in Sources */,
 				94D73EEF27BD0F1E0036E114 /* LandmarkLocationSearchView.swift in Sources */,
+				943C73A927CE235700C30DE6 /* LandmarkDetails.swift in Sources */,
 				94808BB627B3CCD400CFC488 /* LandmarkManager.xcdatamodeld in Sources */,
 				94916DF927BC020C00CB5FB1 /* AddLandmarkView.swift in Sources */,
 				94808BC327B3CE8000CFC488 /* CategoryListViewModel.swift in Sources */,
@@ -399,6 +414,7 @@
 				94D73EF327BD2CAF0036E114 /* LandmarkLocationMapViewModel.swift in Sources */,
 				941BFAE027B4260A009A384B /* LandmarkListRow.swift in Sources */,
 				943754DC27B40FAB00C9DC56 /* Category.swift in Sources */,
+				940571FA27CE299100B6C99A /* Text+.swift in Sources */,
 				943754DF27B40FDE00C9DC56 /* Mapper.swift in Sources */,
 				94D73EC627BCF2F50036E114 /* Spinner.swift in Sources */,
 				943754D427B3F49B00C9DC56 /* String+.swift in Sources */,
@@ -543,6 +559,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"LandmarkManager/Preview Content\"";
 				DEVELOPMENT_TEAM = K5RB2Q6WDH;
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=*]" = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Afin de faciliter la saisie des lieux, nous aurions besoin de votre emplacement";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -574,6 +592,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"LandmarkManager/Preview Content\"";
 				DEVELOPMENT_TEAM = K5RB2Q6WDH;
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Afin de faciliter la saisie des lieux, nous aurions besoin de votre emplacement";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

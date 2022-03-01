@@ -104,7 +104,9 @@ struct AddLandmarkView: View {
                     Button {
                         let addResult = addLandmarkViewModel.addLandmark(name: landmarkName, description: landmarkDescription, image: landmarkImage ?? UIImage())
                         if (addResult) {
-                            showModal = false
+                            withAnimation {
+                                showModal = false
+                            }
                         }
                     } label: {
                         Text("addActionTitle")

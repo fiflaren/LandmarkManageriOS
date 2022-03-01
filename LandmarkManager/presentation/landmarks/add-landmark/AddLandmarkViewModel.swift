@@ -30,14 +30,14 @@ import MapKit
         }
         
         let coordinate = CoordinateModel(lat: latitude, lng: longitude)
+        
+        var result: Bool = false
            
-        do {
-            try LandmarkRepository.shared.addLandmark(name: name, description: description, image: image, coordinate: coordinate, category: categories[selectedCategoryIndex])
-            return true
-        } catch {
-            self.error = ErrorDisplayWrapper.specificError(error)
-            return false
+        saveLandmark(name: name, description: description, image: image, coordinate: coordinate) { didSaveSuccessfully in
+            result = didSaveSuccessfully
         }
+        
+        return result
     }
     
     private func fetchCategories() {
@@ -54,6 +54,18 @@ import MapKit
         }
         
         selectedCategoryIndex = index ?? 0
+    }
+    
+    private func saveLandmark(name: String, description: String, image: UIImage, coordinate: CoordinateModel, completion: @escaping (Bool) -> ()) {
+        DispatchQueue.main.async { [unowned self] in
+            do {
+                try LandmarkRepository.shared.addLandmark(name: name, description: description, image: image, coordinate: coordinate, category: categories[selectedCategoryIndex])
+                completion(true)
+            } catch {
+                self.error = ErrorDisplayWrapper.specificError(error)
+                completion(false)
+            }
+        }
     }
     
 }

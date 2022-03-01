@@ -12,7 +12,6 @@ import CoreLocation
    
     var selectedCategory: CategoryModel
     @Published var landmarks = [LandmarkModel]()
-    @Published var mapLandmarks = [LandmarkLocation]()
     @Published var isLoading: Bool = true
     @Published var selectedLandmark: LandmarkModel?
     @Published var error: ErrorDisplayWrapper?
@@ -21,8 +20,13 @@ import CoreLocation
     
     init(selectedCategory: CategoryModel) {
         self.selectedCategory = selectedCategory
+    }
+    
+    func loadLandmarks() {
         CategoryRepository.shared.selectedCategoryId = selectedCategory.objectId
-        landmarkRepository.fetchLandmarks(searchQuery: nil)
+        DispatchQueue.main.async { [unowned self] in
+            landmarkRepository.fetchLandmarks(searchQuery: nil)
+        }
         fetchLandmarks()
     }
     
@@ -41,10 +45,7 @@ import CoreLocation
         }
         
         self.landmarks = newLandmarks
-        
-        self.mapLandmarks = landmarks.map { landmark in
-            LandmarkLocation(title: landmark.title, place: nil, coordinates: landmark.mapLocation)
-        }
+        isLoading = false
     }
 }
 
