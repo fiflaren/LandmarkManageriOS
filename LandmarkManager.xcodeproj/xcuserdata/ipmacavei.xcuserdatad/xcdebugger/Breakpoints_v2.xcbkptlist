@@ -270,8 +270,8 @@
             filePath = "LandmarkManager/presentation/landmarks/landmark-list/LandmarkListViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "fetchLandmarks()"
             landmarkType = "7">
          </BreakpointContent>

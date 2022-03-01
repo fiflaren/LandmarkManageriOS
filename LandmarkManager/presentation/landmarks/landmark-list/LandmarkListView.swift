@@ -20,16 +20,15 @@ struct LandmarkListView: View {
         Group {
             if landmarkViewModel.isLoading {
                 ProgressView()
-            } else
-            if landmarkViewModel.isLoading == false && landmarkViewModel.landmarks.count == 0 {
+            } else if landmarkViewModel.isLoading == false && landmarkViewModel.landmarks.count == 0 {
                 Text("landmarkList_emptyText")
             } else {
-                Picker("What is your favorite color?", selection: $selectedTabIndex) {
-                    Text("Liste").tag(0)
-                    Text("Carte").tag(1)
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
+//                Picker("What is your favorite color?", selection: $selectedTabIndex) {
+//                    Text("Liste").tag(0)
+//                    Text("Carte").tag(1)
+//                }
+//                .pickerStyle(.segmented)
+//                .padding(.horizontal)
                 
                 if selectedTabIndex == 0 {
                     List {
@@ -53,7 +52,30 @@ struct LandmarkListView: View {
         }
         .navigationTitle(Text("landmarkList_title", comment: "landmarkList_title"))
         .toolbar(content: {
-            addButton
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Menu {
+                    Section {
+                        Button(action: {
+                            selectedTabIndex = selectedTabIndex == 0 ? 1 : 0
+                        }) {
+                            Label(selectedTabIndex == 0 ? "Carte" : "Liste", systemImage: selectedTabIndex == 0 ? "map" : "list.bullet")
+                        }
+                    }
+                    
+                    Section {
+                        Picker(selection: $landmarkViewModel.sortBy, label: Text("Trier par")) {
+                            Text("Title").tag(0)
+                            Text("Date").tag(1)
+                            Text("Location").tag(2)
+                        }
+                    }
+                }
+                label: {
+                    Label("More", systemImage: "ellipsis.circle")
+                }
+                
+                addButton
+            }
         })
         .alert(item: $landmarkViewModel.error) { error in
             Alert(title: Text("errorActionTitle"), message: Text(error.localizedDescription))
@@ -62,6 +84,9 @@ struct LandmarkListView: View {
             AddLandmarkView(showModal: $showAddLandmarkModal)
         }
         .onChange(of: showAddLandmarkModal, perform: { newValue in
+            landmarkViewModel.fetchLandmarks()
+        })
+        .onChange(of: landmarkViewModel.sortBy, perform: { newValue in
             landmarkViewModel.fetchLandmarks()
         })
         .onAppear {

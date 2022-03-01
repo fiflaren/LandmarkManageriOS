@@ -8,6 +8,12 @@
 import Foundation
 import CoreLocation
 
+enum LandmarkListSortingProperty: Int {
+    case name = 0
+    case date = 1
+    case location = 2
+}
+
 @MainActor class LandmarkListViewModel: ObservableObject {
    
     var selectedCategory: CategoryModel
@@ -15,6 +21,7 @@ import CoreLocation
     @Published var isLoading: Bool = true
     @Published var selectedLandmark: LandmarkModel?
     @Published var error: ErrorDisplayWrapper?
+    @Published var sortBy: Int = 0
     
     private var landmarkRepository = LandmarkRepository.shared
     
@@ -44,7 +51,18 @@ import CoreLocation
             newLandmarks.append(Mapper.shared.mapLandmarkDbEntityToModel(entity: landmark, id: index))
         }
         
-        self.landmarks = newLandmarks
+        self.landmarks = newLandmarks.sorted(by: { landmark1, landmark2 in
+            switch LandmarkListSortingProperty.init(rawValue: sortBy) {
+            case .name:
+                return landmark1.title > landmark2.title
+            case .date:
+                return landmark1.modificationDate > landmark2.modificationDate
+            case .location:
+                return true
+            case .none:
+                return false
+            }
+        })
         isLoading = false
     }
 }
