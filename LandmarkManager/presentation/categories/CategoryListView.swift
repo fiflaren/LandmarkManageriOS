@@ -13,6 +13,7 @@ struct CategoryListView: View {
     
     @State private var selection: NSManagedObjectID?
     @State private var searchText: String = ""
+    @State private var showDeleteConfirmation: Bool = false
     
     var body: some View {
         NavigationView {
@@ -32,8 +33,8 @@ struct CategoryListView: View {
                             }
                             
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                Button {
-                                    onDelete(index: index)
+                                Button(role: .destructive) {
+                                    showDeleteConfirmation = true
                                 } label: {
                                     Label {
                                         Text("deleteActionTitle", comment: "deleteActionTitle")
@@ -41,7 +42,19 @@ struct CategoryListView: View {
                                         Image(systemName: "trash")
                                     }
                                 }
-                                .tint(.accentColor)
+                                .tint(.red)
+                            }
+                            .confirmationDialog(
+                                "categoryList_deleteConfirmation".localized,
+                                isPresented: $showDeleteConfirmation
+                            ) {
+                                Button("deleteActionTitle".localized, role: .destructive) {
+                                    withAnimation {
+                                        onDelete(index: index)
+                                    }
+                                }
+                                
+                                Button("cancelActionTitle".localized, role: .cancel) {}
                             }
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 Button {
