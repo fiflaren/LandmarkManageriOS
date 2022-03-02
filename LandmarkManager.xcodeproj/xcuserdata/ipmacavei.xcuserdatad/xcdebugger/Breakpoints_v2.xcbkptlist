@@ -158,8 +158,8 @@
             filePath = "LandmarkManager/presentation/landmarks/add-landmark/AddLandmarkView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "LandmarkManager/presentation/landmarks/add-landmark/AddLandmarkViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
             landmarkName = "fetchCategories()"
             landmarkType = "7">
          </BreakpointContent>
@@ -190,8 +190,8 @@
             filePath = "LandmarkManager/presentation/landmarks/add-landmark/AddLandmarkViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "fetchCategories()"
             landmarkType = "7">
          </BreakpointContent>
@@ -206,8 +206,8 @@
             filePath = "LandmarkManager/presentation/landmarks/add-landmark/AddLandmarkViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "fetchCategories()"
             landmarkType = "7">
          </BreakpointContent>
@@ -286,8 +286,8 @@
             filePath = "LandmarkManager/data/manager/CoreDataManagerImpl.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "fetchCategories(searchQuery:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -302,8 +302,8 @@
             filePath = "LandmarkManager/data/manager/CoreDataManagerImpl.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "fetchCategories(searchQuery:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -432,7 +432,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "37"
                   endingLineNumber = "37"
-                  offsetFromSymbolStart = "612">
+                  offsetFromSymbolStart = "407">
                </Location>
                <Location
                   uuid = "8A2E01DA-6D63-442A-BDB8-D943417EBD1B - cf4082a412307932"
@@ -447,7 +447,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "37"
                   endingLineNumber = "37"
-                  offsetFromSymbolStart = "652">
+                  offsetFromSymbolStart = "450">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -481,6 +481,38 @@
             startingLineNumber = "41"
             endingLineNumber = "41"
             landmarkName = "mapLandmarkDbEntityToModel(entity:id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E1E296FB-5A5A-49C4-BEAB-DB72C0DA6DD4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LandmarkManager/presentation/landmarks/add-landmark/AddLandmarkViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "init(landmarkToEdit:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1267FE07-4436-45FA-BCFA-EF9D7C6B1A51"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LandmarkManager/presentation/landmarks/add-landmark/AddLandmarkViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "init(landmarkToEdit:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

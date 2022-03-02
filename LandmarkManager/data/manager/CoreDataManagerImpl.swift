@@ -14,6 +14,11 @@ class CoreDataManagerImpl: CoreDataManager {
     static let shared: CoreDataManager = CoreDataManagerImpl()
     
     private let container: NSPersistentContainer
+    
+    // edit function only saves context so it is the same for all entities
+    func edit() {
+        saveContext()
+    }
 
     private init() {
         container = NSPersistentContainer(name: "LandmarkManager")
@@ -84,12 +89,12 @@ extension CoreDataManagerImpl {
         return category
     }
     
-    func deleteCategory(category: Category) {
-        container.viewContext.delete(category)
-        saveContext()
+    func editCategory() {
+        edit()
     }
     
-    func editCategory() {
+    func deleteCategory(category: Category) {
+        container.viewContext.delete(category)
         saveContext()
     }
 }
@@ -147,6 +152,10 @@ extension CoreDataManagerImpl {
         
         return landmark
     }
+    
+    func editLandmark() {
+        edit()
+    }
 }
 
 // MARK: - Coordinates
@@ -164,10 +173,16 @@ extension CoreDataManagerImpl {
         }
     }
     
-    func addCoordinate(lat: Double, lng: Double) -> Coordinate {
+    func createCoordinate(lat: Double, lng: Double) -> Coordinate {
         let coordinate = Coordinate(context: container.viewContext)
         coordinate.latitude = lat
         coordinate.longitude = lng
+        
+        return coordinate
+    }
+    
+    func addCoordinate(lat: Double, lng: Double) -> Coordinate {
+        let coordinate = createCoordinate(lat: lat, lng: lng)
         
         saveContext()
         

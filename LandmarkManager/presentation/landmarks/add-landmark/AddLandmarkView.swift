@@ -19,6 +19,8 @@ struct AddLandmarkView: View {
     @State private var showingImagePicker = false
     @State private var landmarkImage: UIImage?
     @State private var image: Image = Image("placeholder")
+    @State private var submitButtonText = "addActionTitle"
+    @State private var shouldLoadFiedValues: Bool = true
     
     @FocusState private var focusedNameField: Bool
     @FocusState private var focusedDescriptionField: Bool
@@ -102,14 +104,14 @@ struct AddLandmarkView: View {
                 
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button {
-                        let addResult = addLandmarkViewModel.addLandmark(name: landmarkName, description: landmarkDescription, image: landmarkImage ?? UIImage())
+                        let addResult = addLandmarkViewModel.addOrEditLandmark(name: landmarkName, description: landmarkDescription, image: landmarkImage ?? UIImage())
                         if (addResult) {
                             withAnimation {
                                 showModal = false
                             }
                         }
                     } label: {
-                        Text("addActionTitle")
+                        Text(submitButtonText)
                     }
                 }
                 
@@ -124,7 +126,7 @@ struct AddLandmarkView: View {
             })
             .onChange(of: landmarkImage) { _ in loadImage() }
             .onChange(of: addLandmarkViewModel.chosenLocation, perform: { location in
-                landmarkAddress = location?.title ?? "Adresse inconnue"
+                landmarkAddress = location?.title ?? "newLandmarkList_unknownAddress".localized
             })
             .sheet(isPresented: $showingImagePicker) {
                 ImagePicker(image: $landmarkImage)
@@ -133,14 +135,10 @@ struct AddLandmarkView: View {
                 Alert(title: Text("errorActionTitle"), message: Text(error.localizedDescription))
             }
             .onAppear {
-                // populate form fields if there is a landmark to edit
-                landmarkName = addLandmarkViewModel.landmarkToEdit?.title ?? ""
-                landmarkDescription = addLandmarkViewModel.landmarkToEdit?.desc ?? ""
-                addLandmarkViewModel.getAddressForLandmarkToEdit(finished: { address in
-                    landmarkAddress = address
-                })
-                landmarkImage = addLandmarkViewModel.landmarkToEdit?.image ?? nil
-                image = landmarkImage != nil ? Image(uiImage: landmarkImage!) : Image("placeholder")
+                if shouldLoadFiedValues {
+                    setFieldValues()
+                    shouldLoadFiedValues = false
+                }
             }
         }
     }
@@ -148,6 +146,23 @@ struct AddLandmarkView: View {
     func loadImage() {
         guard let inputImage = landmarkImage else { return }
         image = Image(uiImage: inputImage)
+    }
+    
+    private func setFieldValues() {
+        // populate form fields if there is a landmark to edit
+        landmarkName = addLandmarkViewModel.landmarkToEdit?.title ?? landmarkName
+        landmarkDescription = addLandmarkViewModel.landmarkToEdit?.desc ?? landmarkDescription
+        
+        if addLandmarkViewModel.landmarkToEdit != nil {
+            addLandmarkViewModel.getAddressForLandmarkToEdit(finished: { address in
+                landmarkAddress = address
+            })
+        }
+        
+        landmarkImage = addLandmarkViewModel.landmarkToEdit?.image ?? landmarkImage
+        image = landmarkImage != nil ? Image(uiImage: landmarkImage!) : image
+        
+        submitButtonText = addLandmarkViewModel.landmarkToEdit != nil ? "editActionTitle".localized : "addActionTitle".localized
     }
 }
 

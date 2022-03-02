@@ -59,9 +59,9 @@ enum LandmarkListSortingProperty: Int {
             case .nameDesc:
                 return landmark1.title > landmark2.title
             case .dateAsc:
-                return landmark1.creationDate > landmark2.creationDate
+                return landmark1.modificationDate > landmark2.modificationDate
             case .dateDesc:
-                return landmark1.creationDate < landmark2.creationDate
+                return landmark1.modificationDate < landmark2.modificationDate
             case .none:
                 return false
             }

@@ -8,15 +8,15 @@
 import Foundation
 import CoreData
 
-protocol CoreDataManager: CategoryCoreDataManager, LandmarkCoreDataManager  {
-    
+protocol CoreDataManager: CategoryCoreDataManager, LandmarkCoreDataManager, CoordinateCoreDataManager  {
+    func edit()
 }
 
 protocol LandmarkCoreDataManager {
     func fetchLandmarks(searchQuery: String?) -> [Landmark]
     func addLandmark(name: String, description: String, image: Data, coordinate: CoordinateModel, category: CategoryModel) -> Landmark?
 //    func deleteCategory(category: Category)
-//    func editCategory()
+    func editLandmark()
 }
 
 protocol CategoryCoreDataManager {
@@ -30,5 +30,5 @@ protocol CategoryCoreDataManager {
 protocol CoordinateCoreDataManager {
     func fetchCoordinateById(id: NSManagedObjectID) throws -> Coordinate?
     func addCoordinate(lat: Double, lng: Double) -> Coordinate
-
+    func createCoordinate(lat: Double, lng: Double) -> Coordinate
 }

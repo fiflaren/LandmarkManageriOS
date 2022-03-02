@@ -36,7 +36,11 @@
 
 "newLandmarkList_title" = "Ajouter un lieu";
 "newLandmarkList_emptyLocation" = "Vous devez obligatoirement sélectionner un emplacement pour créer ce lieu";
+"newLandmarkList_emptyName" = "Vous devez saisir un nom pour ce lieu";
+"newLandmarkList_emptyDescription" = "Vous devez saisir une description pour ce lieu";
 "newLandmarkList_failedCreating" = "Une erreur est survenue lors de la création du lieu";
+"newLandmarkList_failedEditing" = "Une erreur est survenue lors de la modification du lieu";
+"newLandmarkList_unknownAddress" = "Adresse inconnue";
 
 "landmarkList_searchPlaceholder" = "Trouver un lieu…";
 "landmarkList_emptyText" = "Aucun lieu pour le moment…";

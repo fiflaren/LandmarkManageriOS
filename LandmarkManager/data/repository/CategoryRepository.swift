@@ -58,6 +58,5 @@ class CategoryRepository {
         category.name = newName
         category.modificationDate = Date()
         coreDataManager.editCategory()
-
     }
 }

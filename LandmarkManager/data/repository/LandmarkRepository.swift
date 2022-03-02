@@ -13,8 +13,11 @@ enum LandmarkError: Error, LocalizedError {
     case noLocation
     case badImage
     case failedCreating
+    case failedEditing
     case emptyLocation
-    
+    case emptyName
+    case emptyDescription
+
     var errorDescription: String? {
         switch self {
         case .notFound:
@@ -25,8 +28,15 @@ enum LandmarkError: Error, LocalizedError {
             return "landmarkList_badImage".localized
         case .failedCreating:
             return "newLandmarkList_failedCreating".localized
+        case .failedEditing:
+            return "newLandmarkList_failedEditing".localized
         case .emptyLocation:
             return "newLandmarkList_emptyLocation".localized
+        case .emptyName:
+            return "newLandmarkList_emptyName".localized
+        case .emptyDescription:
+            return "newLandmarkList_emptyDescription".localized
+            
         }
     }
 }
@@ -57,6 +67,28 @@ class LandmarkRepository {
         }
         
         landmarks.append(landmark)
+    }
+    
+    func editLandmark(editedLandamrk: LandmarkModel) throws {
+        guard let landmarkToEdit = landmarks.first(where: { $0.objectID == editedLandamrk.objectId }) else {
+            throw LandmarkError.notFound
+        }
+        
+        landmarkToEdit.title = editedLandamrk.title
+        landmarkToEdit.desc = editedLandamrk.desc
+        
+        if let category = editedLandamrk.category {
+            do {
+                landmarkToEdit.category = try coreDataManager.fetchCategoryById(id: category.objectId)
+            } catch {
+                throw LandmarkError.failedEditing
+            }
+        }
+        
+        landmarkToEdit.coordinate = coreDataManager.createCoordinate(lat: editedLandamrk.mapLocation.latitude, lng: editedLandamrk.mapLocation.longitude)
+        landmarkToEdit.image = editedLandamrk.image.pngData()
+        landmarkToEdit.modificationDate = Date()
+        coreDataManager.editLandmark()
     }
     
 

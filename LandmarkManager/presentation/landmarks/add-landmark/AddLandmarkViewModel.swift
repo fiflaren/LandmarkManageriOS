@@ -22,7 +22,17 @@ import MapKit
         fetchCategories()
     }
     
-    func addLandmark(name: String, description: String, image: UIImage) -> Bool {
+    func addOrEditLandmark(name: String, description: String, image: UIImage) -> Bool {
+        let edit = !(self.landmarkToEdit == nil)
+        
+        if name == "" {
+            error = ErrorDisplayWrapper.specificError(LandmarkError.emptyName)
+            return false
+        } else if description == "" {
+            error = ErrorDisplayWrapper.specificError(LandmarkError.emptyDescription)
+            return false
+        }
+        
         guard let latitude = chosenLocation?.coordinates.latitude,
               let longitude = chosenLocation?.coordinates.longitude
         else {
@@ -33,7 +43,21 @@ import MapKit
         let coordinate = CoordinateModel(lat: latitude, lng: longitude)
            
         do {
-            try LandmarkRepository.shared.addLandmark(name: name, description: description, image: image, coordinate: coordinate, category: categories[selectedCategoryIndex])
+            if edit {
+                guard var landmarkToEdit = landmarkToEdit else {
+                    return false
+                }
+
+                landmarkToEdit.title = name
+                landmarkToEdit.desc = description
+                landmarkToEdit.image = image
+                landmarkToEdit.location = coordinate
+                landmarkToEdit.category = categories[selectedCategoryIndex]
+                try LandmarkRepository.shared.editLandmark(editedLandamrk: landmarkToEdit)
+            } else {
+                try LandmarkRepository.shared.addLandmark(name: name, description: description, image: image, coordinate: coordinate, category: categories[selectedCategoryIndex])
+            }
+            
             return true
         } catch {
             self.error = ErrorDisplayWrapper.specificError(error)
@@ -42,15 +66,17 @@ import MapKit
     }
     
     func getAddressForLandmarkToEdit(finished: @escaping (String) -> ()) {
+        let unknownAddressText = "newLandmarkList_unknownAddress".localized
+
         guard let landmarkToEdit = landmarkToEdit else {
-            finished("")
+            finished(unknownAddressText)
             return
         }
         
         LocationManager.shared.getAddressFromCoordinates(with: landmarkToEdit.mapSimpleLocation) { addresses in
             guard let address = addresses.first else {
                 self.error = ErrorDisplayWrapper.specificError(LandmarkLocationError.locationNotFound)
-                finished("")
+                finished(unknownAddressText)
                 return
             }
             
