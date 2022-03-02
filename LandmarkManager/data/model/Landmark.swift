@@ -30,6 +30,14 @@ struct LandmarkModel: Hashable, Identifiable {
         return CLLocationCoordinate2D(latitude: location.lat, longitude: location.lng)
     }
     
+    var mapSimpleLocation: CLLocation {
+        guard let location = location else {
+            return CLLocation.init()
+        }
+
+        return CLLocation(latitude: location.lat, longitude: location.lng)
+    }
+    
     var landmarkLocation: LandmarkLocation {
         return LandmarkLocation(title: self.title, place: nil, coordinates: self.mapLocation)
     }

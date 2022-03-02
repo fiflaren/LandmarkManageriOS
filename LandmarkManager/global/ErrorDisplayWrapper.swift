@@ -15,6 +15,6 @@ enum ErrorDisplayWrapper: Error, LocalizedError, Identifiable {
     }
     
     var errorDescription: String? {
-        NSLocalizedString("", comment: "")
+        NSLocalizedString(localizedDescription, comment: localizedDescription)
     }
 }

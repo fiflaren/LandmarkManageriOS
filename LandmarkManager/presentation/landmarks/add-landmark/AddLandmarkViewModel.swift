@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 
 @MainActor class AddLandmarkViewModel: ObservableObject {
-    
+    @Published var landmarkToEdit: LandmarkModel?
     @Published var categories: [CategoryModel] = []
     @Published var selectedCategoryIndex: Int = 0
     @Published var chosenLocation: LandmarkLocation? = nil
@@ -17,7 +17,8 @@ import MapKit
 
     private var locationManager = LocationManager.shared
         
-    init() {
+    init(landmarkToEdit: LandmarkModel?) {
+        self.landmarkToEdit = landmarkToEdit
         fetchCategories()
     }
     
@@ -37,6 +38,25 @@ import MapKit
         } catch {
             self.error = ErrorDisplayWrapper.specificError(error)
             return false
+        }
+    }
+    
+    func getAddressForLandmarkToEdit(finished: @escaping (String) -> ()) {
+        guard let landmarkToEdit = landmarkToEdit else {
+            finished("")
+            return
+        }
+        
+        LocationManager.shared.getAddressFromCoordinates(with: landmarkToEdit.mapSimpleLocation) { addresses in
+            guard let address = addresses.first else {
+                self.error = ErrorDisplayWrapper.specificError(LandmarkLocationError.locationNotFound)
+                finished("")
+                return
+            }
+            
+            self.error = nil
+                        
+            finished(address)
         }
     }
     

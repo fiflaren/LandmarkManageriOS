@@ -11,7 +11,7 @@ import MapKit
 struct AddLandmarkView: View {
     @Binding var showModal: Bool
     
-    @StateObject var addLandmarkViewModel: AddLandmarkViewModel = AddLandmarkViewModel()
+    @StateObject var addLandmarkViewModel: AddLandmarkViewModel
     
     @State private var landmarkName: String = ""
     @State private var landmarkDescription: String = ""
@@ -132,6 +132,16 @@ struct AddLandmarkView: View {
             .alert(item: $addLandmarkViewModel.error) { error in
                 Alert(title: Text("errorActionTitle"), message: Text(error.localizedDescription))
             }
+            .onAppear {
+                // populate form fields if there is a landmark to edit
+                landmarkName = addLandmarkViewModel.landmarkToEdit?.title ?? ""
+                landmarkDescription = addLandmarkViewModel.landmarkToEdit?.desc ?? ""
+                addLandmarkViewModel.getAddressForLandmarkToEdit(finished: { address in
+                    landmarkAddress = address
+                })
+                landmarkImage = addLandmarkViewModel.landmarkToEdit?.image ?? nil
+                image = landmarkImage != nil ? Image(uiImage: landmarkImage!) : Image("placeholder")
+            }
         }
     }
     
@@ -143,6 +153,6 @@ struct AddLandmarkView: View {
 
 struct AddLandmarkView_Previews: PreviewProvider {
     static var previews: some View {
-        AddLandmarkView(showModal: .constant(true))
+        AddLandmarkView(showModal: .constant(true), addLandmarkViewModel: AddLandmarkViewModel(landmarkToEdit: nil))
     }
 }

@@ -31,7 +31,7 @@ struct CategoryListView: View {
                             } label: {
                                 CategoryListRow(category: category)
                             }
-                            
+                            // delete swipe action
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(role: .destructive) {
                                     showDeleteConfirmation = true
@@ -44,18 +44,7 @@ struct CategoryListView: View {
                                 }
                                 .tint(.red)
                             }
-                            .confirmationDialog(
-                                "categoryList_deleteConfirmation".localized,
-                                isPresented: $showDeleteConfirmation
-                            ) {
-                                Button("deleteActionTitle".localized, role: .destructive) {
-                                    withAnimation {
-                                        onDelete(index: index)
-                                    }
-                                }
-                                
-                                Button("cancelActionTitle".localized, role: .cancel) {}
-                            }
+                            // edit swipe action
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 Button {
                                     onEdit(index: index, name: category.name)
@@ -68,13 +57,26 @@ struct CategoryListView: View {
                                 }
                                 .tint(.accentColor)
                             }
+                            // confirmation dialog on delete
+                            .confirmationDialog(
+                                "categoryList_deleteConfirmation".localized,
+                                isPresented: $showDeleteConfirmation
+                            ) {
+                                Button("deleteActionTitle".localized, role: .destructive) {
+                                    withAnimation {
+                                        onDelete(index: index)
+                                    }
+                                }
+                                
+                                Button("cancelActionTitle".localized, role: .cancel) {}
+                            }
                         }
                     }
+                    // search bar
                     .searchable(text: $searchText, prompt: "Trouver une catégorie…".localized)
                 }
             }
             .navigationTitle(Text("categoryList_title", comment: "categoryList_title"))
-            //        .accessibilityRotor("Catégories", entries: searchResults, entryLabel: \.name)
             .navigationBarItems(trailing: addButton)
             .alert(item: $categoryViewModel.error) { error in
                 Alert(title: Text("Erreur"), message: Text(error.localizedDescription))
