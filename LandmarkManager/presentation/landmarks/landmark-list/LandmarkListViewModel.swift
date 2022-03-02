@@ -9,9 +9,10 @@ import Foundation
 import CoreLocation
 
 enum LandmarkListSortingProperty: Int {
-    case name = 0
-    case date = 1
-    case location = 2
+    case nameAsc = 0
+    case nameDesc = 1
+    case dateAsc = 2
+    case dateDesc = 3
 }
 
 @MainActor class LandmarkListViewModel: ObservableObject {
@@ -53,12 +54,14 @@ enum LandmarkListSortingProperty: Int {
         
         self.landmarks = newLandmarks.sorted(by: { landmark1, landmark2 in
             switch LandmarkListSortingProperty.init(rawValue: sortBy) {
-            case .name:
+            case .nameAsc:
+                return landmark1.title < landmark2.title
+            case .nameDesc:
                 return landmark1.title > landmark2.title
-            case .date:
-                return landmark1.modificationDate > landmark2.modificationDate
-            case .location:
-                return true
+            case .dateAsc:
+                return landmark1.creationDate > landmark2.creationDate
+            case .dateDesc:
+                return landmark1.creationDate < landmark2.creationDate
             case .none:
                 return false
             }

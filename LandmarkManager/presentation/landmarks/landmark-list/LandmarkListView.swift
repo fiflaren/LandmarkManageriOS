@@ -23,13 +23,6 @@ struct LandmarkListView: View {
             } else if landmarkViewModel.isLoading == false && landmarkViewModel.landmarks.count == 0 {
                 Text("landmarkList_emptyText")
             } else {
-//                Picker("What is your favorite color?", selection: $selectedTabIndex) {
-//                    Text("Liste").tag(0)
-//                    Text("Carte").tag(1)
-//                }
-//                .pickerStyle(.segmented)
-//                .padding(.horizontal)
-                
                 if selectedTabIndex == 0 {
                     List {
                         ForEach(searchResults) { landmark in
@@ -62,11 +55,15 @@ struct LandmarkListView: View {
                         }
                     }
                     
-                    Section {
-                        Picker(selection: $landmarkViewModel.sortBy, label: Text("Trier par")) {
-                            Text("Title").tag(0)
-                            Text("Date").tag(1)
-                            Text("Location").tag(2)
+                    if selectedTabIndex == 0 {
+                        Section {
+                            Picker(selection: $landmarkViewModel.sortBy, label: Text("Trier par")) {
+                                Text("Titre A-Z").tag(0)
+                                Text("Titre Z-A").tag(1)
+                                Text("Le plus récent d'abord").tag(2)
+                                Text("Le plus ancien d'abord").tag(3)
+                                //Text("Location").tag(2)
+                            }
                         }
                     }
                 }
