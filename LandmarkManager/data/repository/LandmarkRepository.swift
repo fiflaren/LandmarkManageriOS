@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 enum LandmarkError: Error, LocalizedError {
     case notFound
@@ -70,7 +71,7 @@ class LandmarkRepository {
     }
     
     func editLandmark(editedLandamrk: LandmarkModel) throws {
-        guard let landmarkToEdit = landmarks.first(where: { $0.objectID == editedLandamrk.objectId }) else {
+        guard let landmarkToEdit = findLandmarkById(id: editedLandamrk.objectId) else {
             throw LandmarkError.notFound
         }
         
@@ -91,7 +92,22 @@ class LandmarkRepository {
         coreDataManager.editLandmark()
     }
     
+    func toggleLandmarkFavorite(landmarkId: NSManagedObjectID) throws {
+        guard let landmark = findLandmarkById(id: landmarkId) else {
+            throw LandmarkError.notFound
+        }
 
+        landmark.isFavorite.toggle()
+        coreDataManager.editLandmark()
+    }
+    
+    private func findLandmarkById(id: NSManagedObjectID) -> Landmark? {
+        guard let landmarkToEdit = landmarks.first(where: { $0.objectID == id }) else {
+            return nil
+        }
+        
+        return landmarkToEdit
+    }
 //    func deleteCategory(categoryIndex: Int) throws {
 //        coreDataManager.deleteCategory(category: categories[categoryIndex])
 //        categories.remove(at: categoryIndex)

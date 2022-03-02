@@ -29,6 +29,7 @@
 // landmarks
 
 "landmarkList_title" = "Lieux";
+"landmarkList_favoritesTitle" = "Favoris";
 "landmarkList_searchPlaceholder" = "Trouver un lieu…";
 "landmarkList_emptyText" = "Aucun lieu pour le moment…";
 "landmarkList_notFound" = "Le lieu est introuvable";

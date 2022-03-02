@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import CoreData
 
 enum LandmarkListSortingProperty: Int {
     case nameAsc = 0
@@ -67,6 +68,20 @@ enum LandmarkListSortingProperty: Int {
             }
         })
         isLoading = false
+    }
+    
+    func getLandmarks(favorite: Bool) -> [LandmarkModel] {
+        return landmarks.filter { landmark in
+            landmark.isFavorite == favorite
+        }
+    }
+    
+    func toggleLandmarkFavorite(landmarkId: NSManagedObjectID) {
+        do {
+            try landmarkRepository.toggleLandmarkFavorite(landmarkId: landmarkId)
+        } catch {
+            self.error = ErrorDisplayWrapper.specificError(error)
+        }
     }
 }
 

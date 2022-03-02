@@ -19,6 +19,7 @@ import MapKit
         
     init(landmarkToEdit: LandmarkModel?) {
         self.landmarkToEdit = landmarkToEdit
+        self.chosenLocation = landmarkToEdit?.landmarkLocation
         fetchCategories()
     }
     

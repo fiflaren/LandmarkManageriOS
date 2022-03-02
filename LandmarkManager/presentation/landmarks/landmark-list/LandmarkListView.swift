@@ -11,7 +11,6 @@ import CoreData
 struct LandmarkListView: View {
     @StateObject var landmarkViewModel: LandmarkListViewModel
     
-    @State private var selection: NSManagedObjectID?
     @State private var searchText: String = ""
     @State private var showAddLandmarkModal: Bool = false
     @State private var selectedTabIndex: Int = 0
@@ -26,28 +25,16 @@ struct LandmarkListView: View {
             } else {
                 if selectedTabIndex == 0 {
                     List {
-                        ForEach(searchResults) { landmark in
-                            let index = landmarkViewModel.landmarks.firstIndex(where: { $0.objectId == landmark.objectId })!
-                            
-                            NavigationLink(tag: landmark.objectId, selection: $selection) {
-                                LandmarkDetails(landmark: landmark)
-                            } label: {
-                                LandmarkListRow(landmark: landmark)
-                            }
-                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                Button {
-                                    onEdit(landmark: landmark)
-                                } label: {
-                                    Label {
-                                        Text("editActionTitle", comment: "editActionTitle")
-                                    } icon: {
-                                        Image(systemName: "pencil")
-                                    }
-                                }
-                                .tint(.accentColor)
-                            }
-                        
+                        Section(header: Text("landmarkList_favoritesTitle")) {
+                            LandmarkListSectionContent(displayOnlyFavorites: true, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText)
+                                .environmentObject(landmarkViewModel)
                         }
+                        
+                        Section() {
+                            LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText)
+                                .environmentObject(landmarkViewModel)
+                        }
+                        
                     }
                     .searchable(text: $searchText, prompt: "landmarkList_searchPlaceholder".localized)
                 } else {
@@ -84,18 +71,26 @@ struct LandmarkListView: View {
         }
     }
     
-    private var searchResults: [LandmarkModel] {
+    private var favoriteSearchResults: [LandmarkModel] {
+        let landmarks = landmarkViewModel.getLandmarks(favorite: true)
+        
         if searchText.isEmpty {
-            return landmarkViewModel.landmarks
+            return landmarks
         } else {
-            return landmarkViewModel.landmarks.filter { $0.title.contains(searchText) }
+            return landmarks.filter { $0.title.contains(searchText) }
         }
     }
     
-    private func onEdit(landmark: LandmarkModel) {
-        landmarkToEdit = landmark
-        showAddLandmarkModal = true
+    private var normalSearchResults: [LandmarkModel] {
+        let landmarks = landmarkViewModel.getLandmarks(favorite: false)
+        
+        if searchText.isEmpty {
+            return landmarks
+        } else {
+            return landmarks.filter { $0.title.contains(searchText) }
+        }
     }
+
 }
 
 struct LandmarkListToolbar: View {
@@ -141,5 +136,72 @@ struct LandmarkListToolbar: View {
                 Image(systemName: "plus")
             }
         )
+    }
+}
+
+struct LandmarkListSectionContent: View {
+    var displayOnlyFavorites: Bool
+    @Binding var landmarkToEdit: LandmarkModel?
+    @Binding var showAddLandmarkModal: Bool
+    @Binding var searchText: String
+
+    @EnvironmentObject var landmarkViewModel: LandmarkListViewModel
+    @GestureState private var longPressOnLandmarkRow = false
+    @State private var selection: NSManagedObjectID?
+
+
+    var body: some View {
+        ForEach(searchResults) { landmark in
+            //let index = landmarkViewModel.landmarks.firstIndex(where: { $0.objectId == landmark.objectId })!
+            
+            NavigationLink(tag: landmark.objectId, selection: $selection) {
+                LandmarkDetails(landmark: landmark)
+            } label: {
+                LandmarkListRow(landmark: landmark)
+                    .gesture(
+                        LongPressGesture(minimumDuration: 0.5)
+                            .updating($longPressOnLandmarkRow) { currentState, gestureState, transaction in
+                                withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                                    gestureState = currentState
+                                }
+                            }
+                            .onEnded { value in
+                                withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                                    landmarkViewModel.toggleLandmarkFavorite(landmarkId: landmark.objectId)
+                                    landmarkViewModel.fetchLandmarks()
+                                }
+                            }
+                    )
+                    .scaleEffect(longPressOnLandmarkRow ? 1.2 : 1)
+            }
+            .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                Button {
+                    onEdit(landmark: landmark)
+                } label: {
+                    Label {
+                        Text("editActionTitle", comment: "editActionTitle")
+                    } icon: {
+                        Image(systemName: "pencil")
+                    }
+                }
+                .tint(.accentColor)
+            }
+            
+        }
+    }
+    
+    private func onEdit(landmark: LandmarkModel) {
+        landmarkToEdit = landmark
+        showAddLandmarkModal = true
+    }
+    
+    private var searchResults: [LandmarkModel] {
+        let landmarks = landmarkViewModel.getLandmarks(favorite: displayOnlyFavorites)
+        
+        if searchText.isEmpty {
+            return landmarks
+        } else {
+            return landmarks.filter { $0.title.contains(searchText) }
+        }
     }
 }
