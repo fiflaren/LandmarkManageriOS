@@ -158,21 +158,16 @@ struct LandmarkListSectionContent: View {
                 LandmarkDetails(landmark: landmark)
             } label: {
                 LandmarkListRow(landmark: landmark)
-                    .gesture(
-                        LongPressGesture(minimumDuration: 0.5)
-                            .updating($longPressOnLandmarkRow) { currentState, gestureState, transaction in
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
-                                    gestureState = currentState
-                                }
+                    .contextMenu {
+                        Button {
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                                landmarkViewModel.toggleLandmarkFavorite(landmarkId: landmark.objectId)
+                                landmarkViewModel.fetchLandmarks()
                             }
-                            .onEnded { value in
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
-                                    landmarkViewModel.toggleLandmarkFavorite(landmarkId: landmark.objectId)
-                                    landmarkViewModel.fetchLandmarks()
-                                }
-                            }
-                    )
-                    .scaleEffect(longPressOnLandmarkRow ? 1.2 : 1)
+                        } label: {
+                            Label("\(landmark.isFavorite ? "Retirer des" : "Ajouter aux ") favoris", systemImage: landmark.isFavorite ? "heart.fill" : "heart")
+                        }
+                    }
             }
             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                 Button {

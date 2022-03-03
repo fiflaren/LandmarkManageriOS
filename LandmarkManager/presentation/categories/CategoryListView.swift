@@ -77,11 +77,31 @@ struct CategoryListView: View {
                 }
             }
             .navigationTitle(Text("categoryList_title", comment: "categoryList_title"))
-            .navigationBarItems(trailing: addButton)
+            .toolbar(content: {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Menu {
+                        Section {
+                            Picker(selection: $categoryViewModel.sortBy, label: Text("Trier par")) {
+                                Text("Titre A-Z").tag(0)
+                                Text("Titre Z-A").tag(1)
+                                Text("Le plus récent d'abord").tag(2)
+                                Text("Le plus ancien d'abord").tag(3)
+                            }
+                        }
+                    }
+                    label: {
+                        Label("More", systemImage: "ellipsis.circle")
+                    }
+                    
+                    addButton
+                }
+            })
             .alert(item: $categoryViewModel.error) { error in
                 Alert(title: Text("Erreur"), message: Text(error.localizedDescription))
             }
-            
+            .onChange(of: categoryViewModel.sortBy, perform: { newValue in
+                categoryViewModel.fetchCategories()
+            })
         }
     }
     
@@ -99,6 +119,14 @@ struct CategoryListView: View {
         }
     }
     
+    private var searchResults: [CategoryModel] {
+        if searchText.isEmpty {
+            return categoryViewModel.categories
+        } else {
+            return categoryViewModel.categories.filter { $0.name.contains(searchText) }
+        }
+    }
+    
     private var addButton: some View {
         return AnyView(
             Button {
@@ -111,14 +139,6 @@ struct CategoryListView: View {
                 Image(systemName: "plus")
             }
         )
-    }
-    
-    private var searchResults: [CategoryModel] {
-        if searchText.isEmpty {
-            return categoryViewModel.categories
-        } else {
-            return categoryViewModel.categories.filter { $0.name.contains(searchText) }
-        }
     }
 }
 
@@ -188,3 +208,4 @@ extension CategoryListView {
         return controller
     }
 }
+
