@@ -66,9 +66,6 @@ struct LandmarkListView: View {
             
             landmarkViewModel.fetchLandmarks()
         })
-        .onChange(of: landmarkViewModel.sortBy, perform: { newValue in
-            landmarkViewModel.fetchLandmarks()
-        })
         .onAppear {
             landmarkViewModel.loadLandmarks()
         }
@@ -115,13 +112,14 @@ struct LandmarkListToolbar: View {
                 Section {
                     Picker(selection: $landmarkViewModel.sortBy, label: Text("Trier par")) {
                         ForEach(LandmarkListSortingProperty.allCases) { sortingProperty in
-                            Text(sortingProperty.description).tag(sortingProperty.id)
+                            HStack {
+                                Text(sortingProperty.description).tag(sortingProperty.id)
+                                Spacer()
+                                if landmarkViewModel.sortBy == sortingProperty.id {
+                                    Image(systemName: landmarkViewModel.sortByDescending ? "chevron.down" : "chevron.up")
+                                }
+                            }
                         }
-//                        Text("Titre A-Z").tag(0)
-//                        Text("Titre Z-A").tag(1)
-//                        Text("Le plus récent d'abord").tag(2)
-//                        Text("Le plus ancien d'abord").tag(3)
-//                        //Text("Location").tag(2)
                     }
                 }
             }
