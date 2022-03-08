@@ -15,6 +15,7 @@ struct LandmarkListView: View {
     @State private var showAddLandmarkModal: Bool = false
     @State private var selectedTabIndex: Int = 0
     @State private var landmarkToEdit: LandmarkModel? = nil
+    @State private var showDeleteConfirmation: Bool = false
     
     var body: some View {
         Group {
@@ -25,13 +26,15 @@ struct LandmarkListView: View {
             } else {
                 if selectedTabIndex == 0 {
                     List {
-                        Section(header: Text("landmarkList_favoritesTitle")) {
-                            LandmarkListSectionContent(displayOnlyFavorites: true, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText)
-                                .environmentObject(landmarkViewModel)
+                        if !favoriteSearchResults.isEmpty {
+                            Section(header: Text("landmarkList_favoritesTitle")) {
+                                LandmarkListSectionContent(displayOnlyFavorites: true, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation)
+                                    .environmentObject(landmarkViewModel)
+                            }
                         }
                         
                         Section() {
-                            LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText)
+                            LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation)
                                 .environmentObject(landmarkViewModel)
                         }
                         
@@ -144,6 +147,7 @@ struct LandmarkListSectionContent: View {
     @Binding var landmarkToEdit: LandmarkModel?
     @Binding var showAddLandmarkModal: Bool
     @Binding var searchText: String
+    @Binding var showDeleteConfirmation: Bool
 
     @EnvironmentObject var landmarkViewModel: LandmarkListViewModel
     @GestureState private var longPressOnLandmarkRow = false
@@ -169,6 +173,7 @@ struct LandmarkListSectionContent: View {
                         }
                     }
             }
+            // edit swipe action
             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                 Button {
                     onEdit(landmark: landmark)
@@ -180,6 +185,32 @@ struct LandmarkListSectionContent: View {
                     }
                 }
                 .tint(.accentColor)
+            }
+            // delete swipe action
+            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                Button(role: .destructive) {
+                    showDeleteConfirmation = true
+                } label: {
+                    Label {
+                        Text("deleteActionTitle", comment: "deleteActionTitle")
+                    } icon: {
+                        Image(systemName: "trash")
+                    }
+                }
+                .tint(.red)
+            }
+            // confirmation dialog on delete
+            .confirmationDialog(
+                "landmarkList_deleteConfirmation".localized,
+                isPresented: $showDeleteConfirmation
+            ) {
+                Button("deleteActionTitle".localized, role: .destructive) {
+                    withAnimation {
+                        landmarkViewModel.deleteLandmark(landmarkId: landmark.objectId)
+                    }
+                }
+                
+                Button("cancelActionTitle".localized, role: .cancel) {}
             }
             
         }

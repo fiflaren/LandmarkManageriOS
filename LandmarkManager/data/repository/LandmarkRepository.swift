@@ -108,16 +108,14 @@ class LandmarkRepository {
         
         return landmarkToEdit
     }
-//    func deleteCategory(categoryIndex: Int) throws {
-//        coreDataManager.deleteCategory(category: categories[categoryIndex])
-//        categories.remove(at: categoryIndex)
-//    }
-//
-//    func editCategory(categoryIndex: Int, newName: String) throws {
-//        let category = categories[categoryIndex]
-//        category.name = newName
-//        category.modificationDate = Date()
-//        coreDataManager.editCategory()
-//
-//    }
+    
+    func deleteLandmark(landmarkId: NSManagedObjectID) throws {
+        guard let landmark = findLandmarkById(id: landmarkId),
+              let landmarkIndex = landmarks.firstIndex(of: landmark) else {
+            throw LandmarkError.notFound
+        }
+        
+        coreDataManager.deleteLandmark(landmark: landmark)
+        landmarks.remove(at: landmarkIndex)
+    }
 }

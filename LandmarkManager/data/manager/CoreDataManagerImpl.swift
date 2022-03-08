@@ -156,6 +156,11 @@ extension CoreDataManagerImpl {
     func editLandmark() {
         edit()
     }
+    
+    func deleteLandmark(landmark: Landmark) {
+        container.viewContext.delete(landmark)
+        saveContext()
+    }
 }
 
 // MARK: - Coordinates

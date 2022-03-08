@@ -76,6 +76,15 @@ enum LandmarkListSortingProperty: Int {
         }
     }
     
+    func deleteLandmark(landmarkId: NSManagedObjectID) {
+        do {
+            try landmarkRepository.deleteLandmark(landmarkId: landmarkId)
+            fetchLandmarks()
+        } catch {
+            self.error = ErrorDisplayWrapper.specificError(error)
+        }
+    }
+    
     func toggleLandmarkFavorite(landmarkId: NSManagedObjectID) {
         do {
             try landmarkRepository.toggleLandmarkFavorite(landmarkId: landmarkId)

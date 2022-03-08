@@ -34,6 +34,7 @@
 "landmarkList_emptyText" = "Aucun lieu pour le moment…";
 "landmarkList_notFound" = "Le lieu est introuvable";
 "landmarkList_badImage" = "L'image selectionnée n'est pas valide";
+"landmarkList_deleteConfirmation" = "Êtes-vous sûr(e) de vouloir supprimer ce lieu ? Cette action est irréversible !";
 
 "newLandmarkList_title" = "Ajouter un lieu";
 "newLandmarkList_emptyLocation" = "Vous devez obligatoirement sélectionner un emplacement pour créer ce lieu";

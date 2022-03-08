@@ -15,8 +15,8 @@ protocol CoreDataManager: CategoryCoreDataManager, LandmarkCoreDataManager, Coor
 protocol LandmarkCoreDataManager {
     func fetchLandmarks(searchQuery: String?) -> [Landmark]
     func addLandmark(name: String, description: String, image: Data, coordinate: CoordinateModel, category: CategoryModel) -> Landmark?
-//    func deleteCategory(category: Category)
     func editLandmark()
+    func deleteLandmark(landmark: Landmark)
 }
 
 protocol CategoryCoreDataManager {
