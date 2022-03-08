@@ -9,47 +9,6 @@ import Foundation
 import CoreLocation
 import CoreData
 
-enum LandmarkListSortingProperty: CaseIterable, Identifiable {
-    case name
-    case creationDate
-    case modificationDate
-    
-    init(id: Int) {
-        switch id {
-        case 0:
-            self = .name
-        case 1:
-            self = .creationDate
-        case 2:
-            self = .modificationDate
-        default:
-            self = .name
-        }
-    }
-    
-    var id: Int {
-        switch self {
-        case .name:
-            return 0
-        case .creationDate:
-            return 1
-        case .modificationDate:
-            return 2
-        }
-    }
-    
-    var description: String {
-        switch self {
-        case .name:
-            return "Titre"
-        case .creationDate:
-            return "Date de création"
-        case .modificationDate:
-            return "Date de modification"
-        }
-    }
-}
-
 @MainActor class LandmarkListViewModel: ObservableObject {
    
     var selectedCategory: CategoryModel
@@ -102,13 +61,15 @@ enum LandmarkListSortingProperty: CaseIterable, Identifiable {
         }
         
         self.landmarks = newLandmarks.sorted(by: { landmark1, landmark2 in
-            switch LandmarkListSortingProperty.init(id: sortBy) {
+            switch ListSortingProperty.init(rawValue: sortBy) {
             case .name:
                 return (landmark1.title < landmark2.title) != sortByDescending
             case .creationDate:
                 return (landmark1.creationDate < landmark2.creationDate) != sortByDescending
             case .modificationDate:
                 return (landmark1.modificationDate < landmark2.modificationDate) != sortByDescending
+            case .none:
+                return false
             }
         })
         isLoading = false

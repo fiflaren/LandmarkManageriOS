@@ -111,7 +111,7 @@ struct LandmarkListToolbar: View {
             if selectedTabIndex == 0 {
                 Section {
                     Picker(selection: $landmarkViewModel.sortBy, label: Text("Trier par")) {
-                        ForEach(LandmarkListSortingProperty.allCases) { sortingProperty in
+                        ForEach(ListSortingProperty.allCases) { sortingProperty in
                             HStack {
                                 Text(sortingProperty.description).tag(sortingProperty.id)
                                 Spacer()
@@ -151,7 +151,6 @@ struct LandmarkListSectionContent: View {
     @Binding var showDeleteConfirmation: Bool
 
     @EnvironmentObject var landmarkViewModel: LandmarkListViewModel
-    @GestureState private var longPressOnLandmarkRow = false
     @State private var selection: NSManagedObjectID?
 
 
@@ -170,7 +169,7 @@ struct LandmarkListSectionContent: View {
                                 landmarkViewModel.fetchLandmarks()
                             }
                         } label: {
-                            Label("\(landmark.isFavorite ? "Retirer des" : "Ajouter aux ") favoris", systemImage: landmark.isFavorite ? "heart.fill" : "heart")
+                            Label("\(landmark.isFavorite ? "Retirer des" : "Ajouter aux ") favoris", systemImage: landmark.isFavorite ? "heart" : "heart.fill")
                         }
                     }
             }

@@ -57,3 +57,8 @@
 "deleteActionTitle" = "Supprimer";
 "errorActionTitle" = "Erreur";
 
+
+// list sorting
+"listSortingTitle" = "Titre";
+"listSortingCreationDate" = "Date de création";
+"listSortingModificationDate" = "Date de modification";

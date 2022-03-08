@@ -82,10 +82,15 @@ struct CategoryListView: View {
                     Menu {
                         Section {
                             Picker(selection: $categoryViewModel.sortBy, label: Text("Trier par")) {
-                                Text("Titre A-Z").tag(0)
-                                Text("Titre Z-A").tag(1)
-                                Text("Le plus récent d'abord").tag(2)
-                                Text("Le plus ancien d'abord").tag(3)
+                                ForEach(ListSortingProperty.allCases) { sortingProperty in
+                                    HStack {
+                                        Text(sortingProperty.description).tag(sortingProperty.id)
+                                        Spacer()
+                                        if categoryViewModel.sortBy == sortingProperty.id {
+                                            Image(systemName: categoryViewModel.sortByDescending ? "chevron.down" : "chevron.up")
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -99,9 +104,6 @@ struct CategoryListView: View {
             .alert(item: $categoryViewModel.error) { error in
                 Alert(title: Text("Erreur"), message: Text(error.localizedDescription))
             }
-            .onChange(of: categoryViewModel.sortBy, perform: { newValue in
-                categoryViewModel.fetchCategories()
-            })
         }
     }
     
@@ -123,7 +125,7 @@ struct CategoryListView: View {
         if searchText.isEmpty {
             return categoryViewModel.categories
         } else {
-            return categoryViewModel.categories.filter { $0.name.contains(searchText) }
+            return categoryViewModel.searchCategories(searchQuery: searchText)
         }
     }
     

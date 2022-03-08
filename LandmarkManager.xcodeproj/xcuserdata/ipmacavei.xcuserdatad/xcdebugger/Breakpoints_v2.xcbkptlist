@@ -222,8 +222,8 @@
             filePath = "LandmarkManager/presentation/categories/CategoryListViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "getCategoryLandmarks(category:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -270,8 +270,8 @@
             filePath = "LandmarkManager/presentation/landmarks/landmark-list/LandmarkListViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
             landmarkName = "fetchLandmarks()"
             landmarkType = "7">
          </BreakpointContent>

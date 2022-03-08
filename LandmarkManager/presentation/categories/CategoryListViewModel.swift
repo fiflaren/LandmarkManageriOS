@@ -7,21 +7,27 @@
 
 import Foundation
 
-enum CategoryListSortingProperty: Int {
-    case nameAsc = 0
-    case nameDesc = 1
-    case creationDateAsc = 2
-    case creationDateDesc = 3
-}
-
-
 @MainActor class CategoryListViewModel: ObservableObject {
    
     @Published var categories = [CategoryModel]()
     @Published var isLoading: Bool = true
     @Published var selectedCategory: Category?
     @Published var error: ErrorDisplayWrapper?
-    @Published var sortBy: Int = 0
+    @Published var sortBy: Int = 0 {
+        didSet {
+            // if the previously selected option has been tapped again
+            // invert the sorting order
+            // else reset it to ascending sorting
+            if sortBy == oldValue {
+                sortByDescending.toggle()
+            } else {
+                sortByDescending = false
+            }
+            
+            fetchCategories(searchQuery: nil)
+        }
+    }
+    @Published var sortByDescending: Bool = false
     
     private var categoryRepository = CategoryRepository.shared
     
@@ -36,15 +42,13 @@ enum CategoryListSortingProperty: Int {
         }
         
         self.categories = newCategories.sorted(by: { category1, category2 in
-            switch CategoryListSortingProperty.init(rawValue: sortBy) {
-            case .nameAsc:
-                return category1.name < category2.name
-            case .nameDesc:
-                return category1.name > category2.name
-            case .creationDateAsc:
-                return category1.modificationDate > category2.modificationDate
-            case .creationDateDesc:
-                return category1.modificationDate < category2.modificationDate
+            switch ListSortingProperty.init(rawValue: sortBy) {
+            case .name:
+                return (category1.name < category2.name) != sortByDescending
+            case .creationDate:
+                return (category1.creationDate < category2.creationDate) != sortByDescending
+            case .modificationDate:
+                return (category1.modificationDate < category2.modificationDate) != sortByDescending
             case .none:
                 return false
             }
@@ -76,6 +80,21 @@ enum CategoryListSortingProperty: Int {
     
     func getCategoryLandmarks(category: CategoryModel) -> [LandmarkModel] {
         return category.landmarks
+    }
+    
+    func searchCategories(searchQuery: String) -> [CategoryModel] {
+        var categoriesMatchingQuery: [CategoryModel] = []
+        
+        for category in categories {
+            do {
+                try BoyerMoore(stringLiteral: category.name.lowercased()).search(pat: searchQuery.lowercased())
+                categoriesMatchingQuery.append(category)
+            } catch {
+                continue
+            }
+        }
+        
+        return categoriesMatchingQuery
     }
 }
 

@@ -37,6 +37,8 @@
 		948E47F627CD243A007B4409 /* LandmarkMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E47F527CD243A007B4409 /* LandmarkMapView.swift */; };
 		948E47F827CD243E007B4409 /* LandmarkMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E47F727CD243E007B4409 /* LandmarkMapViewModel.swift */; };
 		94916DF927BC020C00CB5FB1 /* AddLandmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94916DF827BC020C00CB5FB1 /* AddLandmarkView.swift */; };
+		94D3C19127D74AA8002F1CCD /* ListSortingProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D3C19027D74AA8002F1CCD /* ListSortingProperty.swift */; };
+		94D3C19627D7508D002F1CCD /* BoyerMoore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D3C19527D7508D002F1CCD /* BoyerMoore.swift */; };
 		94D73EBF27BCE2030036E114 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D73EBE27BCE2030036E114 /* TextView.swift */; };
 		94D73EC127BCE3A00036E114 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D73EC027BCE3A00036E114 /* ImagePicker.swift */; };
 		94D73EC427BCEEE40036E114 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D73EC327BCEEE40036E114 /* SplashScreenView.swift */; };
@@ -81,6 +83,9 @@
 		948E47F527CD243A007B4409 /* LandmarkMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkMapView.swift; sourceTree = "<group>"; };
 		948E47F727CD243E007B4409 /* LandmarkMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkMapViewModel.swift; sourceTree = "<group>"; };
 		94916DF827BC020C00CB5FB1 /* AddLandmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLandmarkView.swift; sourceTree = "<group>"; };
+		94D3C19027D74AA8002F1CCD /* ListSortingProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSortingProperty.swift; sourceTree = "<group>"; };
+		94D3C19527D7508D002F1CCD /* BoyerMoore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoyerMoore.swift; sourceTree = "<group>"; };
+		94D3C19727D75425002F1CCD /* LandmarkManager.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LandmarkManager.entitlements; sourceTree = "<group>"; };
 		94D73EBE27BCE2030036E114 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		94D73EC027BCE3A00036E114 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		94D73EC327BCEEE40036E114 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
@@ -160,6 +165,7 @@
 				943754E627B41C6900C9DC56 /* Landmark.swift */,
 				94D73EEB27BD0C6E0036E114 /* LandmarkLocation.swift */,
 				948E47F227CCFD9C007B4409 /* Coordinate.swift */,
+				94D3C19027D74AA8002F1CCD /* ListSortingProperty.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -209,6 +215,7 @@
 		94808BA827B3CCD100CFC488 /* LandmarkManager */ = {
 			isa = PBXGroup;
 			children = (
+				94D3C19727D75425002F1CCD /* LandmarkManager.entitlements */,
 				94808BBD27B3CDF900CFC488 /* global */,
 				94808BBC27B3CDDD00CFC488 /* data */,
 				94808BBE27B3CE0800CFC488 /* presentation */,
@@ -245,6 +252,7 @@
 		94808BBD27B3CDF900CFC488 /* global */ = {
 			isa = PBXGroup;
 			children = (
+				94D3C19427D7507E002F1CCD /* utils */,
 				943754C927B3DB6C00C9DC56 /* extensions */,
 				943754D527B3FCD500C9DC56 /* ErrorDisplayWrapper.swift */,
 			);
@@ -300,6 +308,14 @@
 				94D73EE927BD0B5C0036E114 /* AddLandmarkViewModel.swift */,
 			);
 			path = "add-landmark";
+			sourceTree = "<group>";
+		};
+		94D3C19427D7507E002F1CCD /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				94D3C19527D7508D002F1CCD /* BoyerMoore.swift */,
+			);
+			path = utils;
 			sourceTree = "<group>";
 		};
 		94D73EC227BCEED20036E114 /* splashscreen */ = {
@@ -413,6 +429,7 @@
 				941BFAE127B4260A009A384B /* LandmarkListViewModel.swift in Sources */,
 				94D73EF327BD2CAF0036E114 /* LandmarkLocationMapViewModel.swift in Sources */,
 				941BFAE027B4260A009A384B /* LandmarkListRow.swift in Sources */,
+				94D3C19127D74AA8002F1CCD /* ListSortingProperty.swift in Sources */,
 				943754DC27B40FAB00C9DC56 /* Category.swift in Sources */,
 				940571FA27CE299100B6C99A /* Text+.swift in Sources */,
 				943754DF27B40FDE00C9DC56 /* Mapper.swift in Sources */,
@@ -426,6 +443,7 @@
 				941BFAE227B4260A009A384B /* LandmarkListView.swift in Sources */,
 				948E47F827CD243E007B4409 /* LandmarkMapViewModel.swift in Sources */,
 				94808BC127B3CE3100CFC488 /* CategoryListView.swift in Sources */,
+				94D3C19627D7508D002F1CCD /* BoyerMoore.swift in Sources */,
 				94D73EE827BD08320036E114 /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -554,6 +572,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LandmarkManager/LandmarkManager.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LandmarkManager/Preview Content\"";
@@ -569,6 +588,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -576,9 +596,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mipdev.landmarkmanager.LandmarkManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -587,6 +608,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LandmarkManager/LandmarkManager.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LandmarkManager/Preview Content\"";
@@ -601,6 +623,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -608,9 +631,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mipdev.landmarkmanager.LandmarkManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
