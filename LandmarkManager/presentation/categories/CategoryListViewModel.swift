@@ -87,7 +87,7 @@ import Foundation
         
         for category in categories {
             do {
-                try BoyerMoore(stringLiteral: category.name.lowercased()).search(pat: searchQuery.lowercased())
+                _ = try BoyerMoore(stringLiteral: category.name.lowercased()).search(pat: searchQuery.lowercased())
                 categoriesMatchingQuery.append(category)
             } catch {
                 continue

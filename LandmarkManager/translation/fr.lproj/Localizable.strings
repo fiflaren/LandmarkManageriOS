@@ -1,12 +1,10 @@
-/* 
-  Localizable.strings
+/*
+  Localizable-fr.strings
   LandmarkManager
 
-  Created by Iuliu-Petru MACAVEI LT162 on 09/02/2022.
+  Created by Iuliu-Petru MACAVEI LT162 on 08/03/2022.
   
 */
-
-// categories
 
 "categoryList_title" = "Catégories";
 "categoryList_searchPlaceholder" = "Trouver une catégorie…";

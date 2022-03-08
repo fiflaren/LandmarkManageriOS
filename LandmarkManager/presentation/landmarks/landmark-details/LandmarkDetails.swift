@@ -96,13 +96,8 @@ struct LandmarkDetailsMetadataIcons: View {
                     Button {
                         landmark.isFavorite.toggle()
                     } label: {
-                        if landmark.isFavorite {
-                            Image(systemName: "heart.fill")
-                                .foregroundColor(Color.accentColor)
-                        } else {
-                            Image(systemName: "heart")
-                                .foregroundColor(Color.gray)
-                        }
+                        Image(systemName: landmark.isFavorite ? "heart.fill" : "heart")
+                            .foregroundColor(landmark.isFavorite ? Color.accentColor : Color.gray)
                     }
                 }
             }.padding(.bottom,5).foregroundColor(Color.gray)

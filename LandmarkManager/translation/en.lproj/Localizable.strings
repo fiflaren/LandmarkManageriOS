@@ -1,0 +1,64 @@
+/* 
+  Localizable.strings
+  LandmarkManager
+
+  Created by Iuliu-Petru MACAVEI LT162 on 09/02/2022.
+  
+*/
+
+// categories
+
+"categoryList_title" = "Categories";
+"categoryList_searchPlaceholder" = "Search for a category…";
+"categoryList_emptyText" = "No categories for the moment…";
+"categoryList_notFound" = "The category was not found";
+"categoryList_failedFetchingFromDb" = "Loading the categories has failed";
+"categoryList_deleteConfirmation" = "Are you sure you want to delete this category ? This action cannot be undone and will also delete all the landmarks found in this category !";
+
+
+"newCategory_title" = "New category";
+"newCategory_subTitle" = "Add a category to the list";
+"newCategory_textFieldPlaceholder" = "Category name…";
+"newCategory_saveActionTitle" = "Add";
+
+"editCategory_title" = "Edit a category";
+"editCategory_subTitle" = "Edit the selected category";
+"editCategory_textFieldPlaceholder" = "Category name…";
+"editCategory_saveActionTitle" = "Edit";
+
+// landmarks
+
+"landmarkList_title" = "Landmarks";
+"landmarkList_favoritesTitle" = "Favorites";
+"landmarkList_searchPlaceholder" = "Find a landmark…";
+"landmarkList_emptyText" = "No landmarks for the moment…";
+"landmarkList_notFound" = "The landmark was not found";
+"landmarkList_badImage" = "The selected image is invalid";
+"landmarkList_deleteConfirmation" = "Are you sure you want to delete this landmark ? This action cannot be undone !";
+
+"newLandmarkList_title" = "Add a landmark";
+"newLandmarkList_emptyLocation" = "You must set a location for this landmark";
+"newLandmarkList_emptyName" = "The landmark must have a name";
+"newLandmarkList_emptyDescription" = "The landmark must have a description";
+"newLandmarkList_failedCreating" = "An error occured when creating the landmark";
+"newLandmarkList_failedEditing" = "An error occured when editing the landmark";
+"newLandmarkList_unknownAddress" = "Unknown address";
+
+"landmarkList_searchPlaceholder" = "Search for a landmark…";
+"landmarkList_emptyText" = "No landmarks for the moment…";
+
+
+// general
+
+"cancelActionTitle" = "Cancel";
+"addActionTitle" = "Add";
+"editActionTitle" = "Edit";
+"chooseActionTitle" = " Choose";
+"deleteActionTitle" = "Delete";
+"errorActionTitle" = "Error";
+
+
+// list sorting
+"listSortingTitle" = "Title";
+"listSortingCreationDate" = "Creation date";
+"listSortingModificationDate" = "Modification date";
