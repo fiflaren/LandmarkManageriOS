@@ -114,11 +114,14 @@ struct LandmarkListToolbar: View {
             if selectedTabIndex == 0 {
                 Section {
                     Picker(selection: $landmarkViewModel.sortBy, label: Text("Trier par")) {
-                        Text("Titre A-Z").tag(0)
-                        Text("Titre Z-A").tag(1)
-                        Text("Le plus récent d'abord").tag(2)
-                        Text("Le plus ancien d'abord").tag(3)
-                        //Text("Location").tag(2)
+                        ForEach(LandmarkListSortingProperty.allCases) { sortingProperty in
+                            Text(sortingProperty.description).tag(sortingProperty.id)
+                        }
+//                        Text("Titre A-Z").tag(0)
+//                        Text("Titre Z-A").tag(1)
+//                        Text("Le plus récent d'abord").tag(2)
+//                        Text("Le plus ancien d'abord").tag(3)
+//                        //Text("Location").tag(2)
                     }
                 }
             }

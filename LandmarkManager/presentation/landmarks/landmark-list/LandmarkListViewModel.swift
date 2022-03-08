@@ -9,11 +9,66 @@ import Foundation
 import CoreLocation
 import CoreData
 
-enum LandmarkListSortingProperty: Int {
-    case nameAsc = 0
-    case nameDesc = 1
-    case dateAsc = 2
-    case dateDesc = 3
+enum LandmarkListSortingProperty: CaseIterable, Identifiable {
+    case nameAsc
+    case nameDesc
+    case creationDateAsc
+    case creationDateDesc
+    case modificationDateAsc
+    case modificationDateDesc
+    
+    init(id: Int) {
+        switch id {
+        case 0:
+            self = .nameAsc
+        case 1:
+            self = .nameDesc
+        case 2:
+            self = .creationDateAsc
+        case 3:
+            self = .creationDateDesc
+        case 4:
+            self = .modificationDateAsc
+        case 5:
+            self = .modificationDateDesc
+        default:
+            self = .nameAsc
+        }
+    }
+    
+    var id: Int {
+        switch self {
+        case .nameAsc:
+            return 0
+        case .nameDesc:
+            return 1
+        case .creationDateAsc:
+            return 2
+        case .creationDateDesc:
+            return 3
+        case .modificationDateAsc:
+            return 4
+        case .modificationDateDesc:
+            return 5
+        }
+    }
+    
+    var description: String {
+        switch self {
+        case .nameAsc:
+            return "Titre A-Z"
+        case .nameDesc:
+            return "Titre Z-A"
+        case .creationDateAsc:
+            return "Créé le plus récemment"
+        case .creationDateDesc:
+            return "Créé le moins récemment"
+        case .modificationDateAsc:
+            return "Modifié le plus récemment"
+        case .modificationDateDesc:
+            return "Modifié le moins récemment"
+        }
+    }
 }
 
 @MainActor class LandmarkListViewModel: ObservableObject {
@@ -24,6 +79,7 @@ enum LandmarkListSortingProperty: Int {
     @Published var selectedLandmark: LandmarkModel?
     @Published var error: ErrorDisplayWrapper?
     @Published var sortBy: Int = 0
+    @Published var soryByDescending: Bool = false
     
     private var landmarkRepository = LandmarkRepository.shared
     
@@ -54,17 +110,19 @@ enum LandmarkListSortingProperty: Int {
         }
         
         self.landmarks = newLandmarks.sorted(by: { landmark1, landmark2 in
-            switch LandmarkListSortingProperty.init(rawValue: sortBy) {
+            switch LandmarkListSortingProperty.init(id: sortBy) {
             case .nameAsc:
                 return landmark1.title < landmark2.title
             case .nameDesc:
                 return landmark1.title > landmark2.title
-            case .dateAsc:
+            case .creationDateAsc:
+                return landmark1.creationDate > landmark2.creationDate
+            case .creationDateDesc:
+                return landmark1.creationDate < landmark2.creationDate
+            case .modificationDateAsc:
                 return landmark1.modificationDate > landmark2.modificationDate
-            case .dateDesc:
+            case .modificationDateDesc:
                 return landmark1.modificationDate < landmark2.modificationDate
-            case .none:
-                return false
             }
         })
         isLoading = false

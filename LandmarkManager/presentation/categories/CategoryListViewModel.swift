@@ -10,8 +10,8 @@ import Foundation
 enum CategoryListSortingProperty: Int {
     case nameAsc = 0
     case nameDesc = 1
-    case dateAsc = 2
-    case dateDesc = 3
+    case creationDateAsc = 2
+    case creationDateDesc = 3
 }
 
 
@@ -36,14 +36,14 @@ enum CategoryListSortingProperty: Int {
         }
         
         self.categories = newCategories.sorted(by: { category1, category2 in
-            switch LandmarkListSortingProperty.init(rawValue: sortBy) {
+            switch CategoryListSortingProperty.init(rawValue: sortBy) {
             case .nameAsc:
                 return category1.name < category2.name
             case .nameDesc:
                 return category1.name > category2.name
-            case .dateAsc:
+            case .creationDateAsc:
                 return category1.modificationDate > category2.modificationDate
-            case .dateDesc:
+            case .creationDateDesc:
                 return category1.modificationDate < category2.modificationDate
             case .none:
                 return false
