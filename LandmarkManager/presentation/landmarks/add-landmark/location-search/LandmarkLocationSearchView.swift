@@ -38,7 +38,7 @@ struct LandmarkLocationSearchView: View {
                                 .padding(.horizontal, 2)
                                 .foregroundColor(.gray)
                             
-                            TextField("Chercher par nom...", text: $mapViewModel.searchQuery)
+                            TextField("locationSearch_searchPlaceholder".localized, text: $mapViewModel.searchQuery)
                         }
                         .padding(8)
                         .background(.regularMaterial)
@@ -110,7 +110,7 @@ struct LandmarkLocationSearchView: View {
                     self.presentationMode.wrappedValue.dismiss()
                 }
             }) {
-                Text("Choisir ce lieu")
+                Text("locationSearch_submit")
             }
             .tint(.accentColor)
             .buttonStyle(.borderedProminent)
@@ -119,7 +119,7 @@ struct LandmarkLocationSearchView: View {
             .padding(5)
             
         }
-        .navigationTitle("Choisir un lieu")
+        .navigationTitle("locationSearch_title".localized)
         .onAppear {
             LocationManager.shared.setLocationManagerDelegate(delegate: mapViewModel)
             LocationManager.shared.requestLocationPermission()
@@ -132,7 +132,7 @@ struct LandmarkLocationSearchView: View {
             }
         }
         .alert(item: $mapViewModel.error) { error in
-            Alert(title: Text("Erreur"), message: Text(error.localizedDescription))
+            Alert(title: Text("errorActionTitle"), message: Text(error.localizedDescription))
         }
     }
 }

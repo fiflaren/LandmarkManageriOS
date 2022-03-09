@@ -29,14 +29,14 @@ struct AddLandmarkView: View {
         NavigationView {
             VStack {
                 Form {
-                    Section(header: Text("Informations générales")) {
-                        TextField("Titre du lieu", text: $landmarkName)
+                    Section(header: Text("newLandmarkList_generalInfoTitle")) {
+                        TextField("newLandmarkList_nameTitle".localized, text: $landmarkName)
                             .focused($focusedNameField)
                         
                         ZStack(alignment: .leading) {
                             // placeholder text for the TextEditor which isn't natively supported by SwiftUI
                             if landmarkDescription.isEmpty {
-                                Text("Description du lieu…")
+                                Text("newLandmarkList_descriptionTitle")
                                     .opacity(landmarkDescription.isEmpty ? 0.25 : 1)
                             }
                             
@@ -45,7 +45,7 @@ struct AddLandmarkView: View {
                         }
                     }
                     
-                    Section(header: Text("Image")) {
+                    Section(header: Text("newLandmarkList_imageTitle")) {
                         VStack(alignment: .trailing, spacing: 10) {
                             Button {
                                 showingImagePicker.toggle()
@@ -59,7 +59,7 @@ struct AddLandmarkView: View {
                         }
                     }
                     
-                    Section(header: Text("Lieu")) {
+                    Section(header: Text("newLandmarkList_locationTitle")) {
                         HStack {
                             
                             Text(landmarkAddress)
@@ -77,7 +77,7 @@ struct AddLandmarkView: View {
                         
                     }
                     
-                    Section(header: Text("Catégorie")) {
+                    Section(header: Text("newLandmarkList_categoryTitle")) {
                         VStack {
                             Picker(selection: $addLandmarkViewModel.selectedCategoryIndex, label: Text(addLandmarkViewModel.categories[addLandmarkViewModel.selectedCategoryIndex].name)) {
                                 ForEach(0 ..< addLandmarkViewModel.categories.count) { index in
@@ -118,7 +118,7 @@ struct AddLandmarkView: View {
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
                     
-                    Button("Terminé") {
+                    Button("doneTitle".localized) {
                         focusedNameField = false
                         focusedDescriptionField = false
                     }

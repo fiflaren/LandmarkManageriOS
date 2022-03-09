@@ -89,7 +89,7 @@ import MapKit
     
     private func fetchCategories() {
         categories = CategoryRepository.shared.categories.enumerated().map({ (index, category) in
-            Mapper.shared.mapCategoryDbEntityToModel(entity: category, id: index)
+            Mapper.shared.mapCategoryDbEntityToModel(entity: category, id: index, mapLandmarks: true)
         })
         
         guard let selectedCategory = CategoryRepository.shared.selectedCategoryId else {

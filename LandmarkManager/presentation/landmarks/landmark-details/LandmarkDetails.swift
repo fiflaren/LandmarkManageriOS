@@ -89,7 +89,7 @@ struct LandmarkDetailsMetadataIcons: View {
                 
                 HStack {
                     Image(systemName: "folder.fill").imageScale(.small)
-                    Text(landmark.category?.name ?? "Catégorie inconnue").font(.caption)
+                    Text(landmark.category?.name ?? "categoryList_unknown".localized).font(.caption)
                 }
                 
                 HStack {

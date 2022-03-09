@@ -9,6 +9,7 @@
 // categories
 
 "categoryList_title" = "Categories";
+"categoryList_unknown" = "Unknown category";
 "categoryList_searchPlaceholder" = "Search for a category…";
 "categoryList_emptyText" = "No categories for the moment…";
 "categoryList_notFound" = "The category was not found";
@@ -35,6 +36,8 @@
 "landmarkList_notFound" = "The landmark was not found";
 "landmarkList_badImage" = "The selected image is invalid";
 "landmarkList_deleteConfirmation" = "Are you sure you want to delete this landmark ? This action cannot be undone !";
+"landmarkList_searchPlaceholder" = "Search for a landmark…";
+"landmarkList_emptyText" = "No landmarks for the moment…";
 
 "newLandmarkList_title" = "Add a landmark";
 "newLandmarkList_emptyLocation" = "You must set a location for this landmark";
@@ -43,10 +46,19 @@
 "newLandmarkList_failedCreating" = "An error occured when creating the landmark";
 "newLandmarkList_failedEditing" = "An error occured when editing the landmark";
 "newLandmarkList_unknownAddress" = "Unknown address";
+"newLandmarkList_generalInfoTitle" = "General information";
+"newLandmarkList_nameTitle" = "Landmark title…";
+"newLandmarkList_descriptionTitle" = "Landmark description…";
+"newLandmarkList_imageTitle" = "Image";
+"newLandmarkList_locationTitle" = "Location";
+"newLandmarkList_categoryTitle" = "Category";
 
-"landmarkList_searchPlaceholder" = "Search for a landmark…";
-"landmarkList_emptyText" = "No landmarks for the moment…";
 
+// location
+
+"locationSearch_title" = "Pick a location";
+"locationSearch_searchPlaceholder" = "Search for a location…";
+"locationSearch_submit" = "Pick this location";
 
 // general
 
@@ -56,6 +68,9 @@
 "chooseActionTitle" = " Choose";
 "deleteActionTitle" = "Delete";
 "errorActionTitle" = "Error";
+"sortByTitle" = "Sort by";
+"moreTitle" = "More";
+"doneTitle" = "Done";
 
 
 // list sorting

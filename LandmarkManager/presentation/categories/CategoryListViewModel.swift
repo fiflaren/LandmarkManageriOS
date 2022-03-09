@@ -38,7 +38,7 @@ import Foundation
     func fetchCategories(searchQuery: String? = nil) {
         var newCategories: [CategoryModel] = []
         for (index,category) in categoryRepository.categories.enumerated() {
-            newCategories.append(Mapper.shared.mapCategoryDbEntityToModel(entity: category, id: index))
+            newCategories.append(Mapper.shared.mapCategoryDbEntityToModel(entity: category, id: index, mapLandmarks: true))
         }
         
         self.categories = newCategories.sorted(by: { category1, category2 in

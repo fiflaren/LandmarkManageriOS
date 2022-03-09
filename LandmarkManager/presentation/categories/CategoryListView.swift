@@ -73,7 +73,7 @@ struct CategoryListView: View {
                         }
                     }
                     // search bar
-                    .searchable(text: $searchText, prompt: "Trouver une catégorie…".localized)
+                    .searchable(text: $searchText, prompt: "categoryList_searchPlaceholder".localized)
                 }
             }
             .navigationTitle(Text("categoryList_title", comment: "categoryList_title"))
@@ -81,7 +81,7 @@ struct CategoryListView: View {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Menu {
                         Section {
-                            Picker(selection: $categoryViewModel.sortBy, label: Text("Trier par")) {
+                            Picker(selection: $categoryViewModel.sortBy, label: Text("sortByTitle")) {
                                 ForEach(ListSortingProperty.allCases) { sortingProperty in
                                     HStack {
                                         Text(sortingProperty.description).tag(sortingProperty.id)
@@ -95,14 +95,14 @@ struct CategoryListView: View {
                         }
                     }
                     label: {
-                        Label("More", systemImage: "ellipsis.circle")
+                        Label("moreTitle".localized, systemImage: "ellipsis.circle")
                     }
                     
                     addButton
                 }
             })
             .alert(item: $categoryViewModel.error) { error in
-                Alert(title: Text("Erreur"), message: Text(error.localizedDescription))
+                Alert(title: Text("errorActionTitle"), message: Text(error.localizedDescription))
             }
         }
     }

@@ -45,13 +45,23 @@ struct LandmarkListView: View {
                             
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 20) {
-                                    ForEach(landmarkViewModel.landmarks) { landmark in
+                                    ForEach(favoriteSearchResults) { landmark in
                                         GeometryReader { geometry in
                                             NavigationLink(tag: landmark.objectId, selection: $selection) {
                                                 LandmarkDetails(landmark: landmark)
                                             } label: {
-                                                LandmarkGridCell(landmark: landmark, width: 264, height: 150, showBackgroundBlur: true)
+                                                LandmarkGridCell(landmark: landmark, showBackgroundBlur: true)
                                                     .rotation3DEffect(Angle(degrees: (Double(geometry.frame(in: .global).minX) - 40) / -20), axis: (x: 0, y: 10.0, z: 0))
+                                            }
+                                            .contextMenu {
+                                                Button {
+                                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                                                        landmarkViewModel.toggleLandmarkFavorite(landmarkId: landmark.objectId)
+                                                        landmarkViewModel.fetchLandmarks()
+                                                    }
+                                                } label: {
+                                                    Label("\(landmark.isFavorite ? "Retirer des" : "Ajouter aux ") favoris", systemImage: landmark.isFavorite ? "heart" : "heart.fill")
+                                                }
                                             }
                                         }
                                         .frame(width: 246, height: 150)
@@ -126,17 +136,6 @@ struct LandmarkListView: View {
             return landmarks.filter { $0.title.contains(searchText) }
         }
     }
-    
-    private var normalSearchResults: [LandmarkModel] {
-        let landmarks = landmarkViewModel.getLandmarks(favorite: false)
-        
-        if searchText.isEmpty {
-            return landmarks
-        } else {
-            return landmarks.filter { $0.title.contains(searchText) }
-        }
-    }
-    
 }
 
 struct LandmarkListToolbar: View {
@@ -241,8 +240,6 @@ struct LandmarkListSectionContent: View {
                             }
                         }
                 }
-                
-                
             }
             // edit swipe action
             .swipeActions(edge: .leading, allowsFullSwipe: true) {

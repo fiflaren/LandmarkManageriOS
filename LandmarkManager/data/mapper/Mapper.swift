@@ -15,11 +15,13 @@ class Mapper {
         
     }
     
-    func mapCategoryDbEntityToModel(entity: Category, id: Int) -> CategoryModel {
+    func mapCategoryDbEntityToModel(entity: Category, id: Int, mapLandmarks: Bool) -> CategoryModel {
         var landmarks = [LandmarkModel]()
         
-        for (index,landmarkEntity) in entity.landmarks!.allObjects.enumerated() {
-            landmarks.append(mapLandmarkDbEntityToModel(entity: landmarkEntity as! Landmark, id: index))
+        if mapLandmarks, let categoryLandmarks = entity.landmarks {
+            for (index,landmarkEntity) in categoryLandmarks.allObjects.enumerated() {
+                landmarks.append(mapLandmarkDbEntityToModel(entity: landmarkEntity as! Landmark, id: index))
+            }
         }
         
         return CategoryModel(
@@ -38,10 +40,10 @@ class Mapper {
             coordinateModel = mapCoordinateDbEntityToModel(entity: coordinate)
         }
         
-//        var categoryModel: CategoryModel? = nil
-//        if let category = entity.category {
-//            categoryModel = mapCategoryDbEntityToModel(entity: category, id: 0)
-//        }
+        var categoryModel: CategoryModel? = nil
+        if let category = entity.category {
+            categoryModel = mapCategoryDbEntityToModel(entity: category, id: 0, mapLandmarks: false)
+        }
         
         return LandmarkModel(
             id: id,
@@ -52,7 +54,7 @@ class Mapper {
             isFavorite: entity.isFavorite,
             creationDate: entity.creationDate!,
             modificationDate: entity.modificationDate!,
-//            category: categoryModel,
+            category: categoryModel,
             location: coordinateModel
         )
     }

@@ -41,6 +41,8 @@ class LandmarkLocationMapViewModel: NSObject, ObservableObject {
     func getSelectedLocation(finished: @escaping (LandmarkLocation?) -> ()) {
         isLoading = true
         
+        MKAnnotation
+        
         let selectedLocationCoordinates = mapView.centerCoordinate
         
         let locationCoordinates = CLLocation(latitude: selectedLocationCoordinates.latitude, longitude: selectedLocationCoordinates.longitude)

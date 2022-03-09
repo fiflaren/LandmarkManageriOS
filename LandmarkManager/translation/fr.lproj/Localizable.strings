@@ -7,6 +7,7 @@
 */
 
 "categoryList_title" = "Catégories";
+"categoryList_unknown" = "Catégorie inconnue";
 "categoryList_searchPlaceholder" = "Trouver une catégorie…";
 "categoryList_emptyText" = "Aucune catégorie pour le moment…";
 "categoryList_notFound" = "La catégorie est introuvable";
@@ -33,6 +34,8 @@
 "landmarkList_notFound" = "Le lieu est introuvable";
 "landmarkList_badImage" = "L'image selectionnée n'est pas valide";
 "landmarkList_deleteConfirmation" = "Êtes-vous sûr(e) de vouloir supprimer ce lieu ? Cette action est irréversible !";
+"landmarkList_searchPlaceholder" = "Trouver un lieu…";
+"landmarkList_emptyText" = "Aucun lieu pour le moment…";
 
 "newLandmarkList_title" = "Ajouter un lieu";
 "newLandmarkList_emptyLocation" = "Vous devez obligatoirement sélectionner un emplacement pour créer ce lieu";
@@ -41,10 +44,19 @@
 "newLandmarkList_failedCreating" = "Une erreur est survenue lors de la création du lieu";
 "newLandmarkList_failedEditing" = "Une erreur est survenue lors de la modification du lieu";
 "newLandmarkList_unknownAddress" = "Adresse inconnue";
+"newLandmarkList_generalInfoTitle" = "Informations générales";
+"newLandmarkList_nameTitle" = "Titre du lieu…";
+"newLandmarkList_descriptionTitle" = "Description du lieu…";
+"newLandmarkList_imageTitle" = "Image";
+"newLandmarkList_locationTitle" = "Lieu";
+"newLandmarkList_categoryTitle" = "Catégorie";
 
-"landmarkList_searchPlaceholder" = "Trouver un lieu…";
-"landmarkList_emptyText" = "Aucun lieu pour le moment…";
 
+// location
+
+"locationSearch_title" = "Choisir un lieu";
+"locationSearch_searchPlaceholder" = "Chercher par nom";
+"locationSearch_submit" = "Choisir ce lieu";
 
 // general
 
@@ -54,6 +66,9 @@
 "chooseActionTitle" = " Choisir";
 "deleteActionTitle" = "Supprimer";
 "errorActionTitle" = "Erreur";
+"sortByTitle" = "Trier par";
+"moreTitle" = "Plus";
+"doneTitle" = "Terminé";
 
 
 // list sorting
