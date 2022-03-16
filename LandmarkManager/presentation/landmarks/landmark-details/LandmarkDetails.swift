@@ -11,6 +11,7 @@ import CoreData
 struct LandmarkDetails: View {
     @State var landmark: LandmarkModel
     @State private var isAnimating: Bool = true
+    @EnvironmentObject var landmarkViewModel: LandmarkListViewModel
     
     let imageClipShape = RoundedRectangle(cornerRadius: 10, style: .continuous)
     
@@ -78,6 +79,7 @@ struct LandmarkDetailsImage: View {
 struct LandmarkDetailsMetadataIcons: View {
     @Binding var landmark: LandmarkModel
     @Binding var isAnimating: Bool
+    @EnvironmentObject var landmarkViewModel: LandmarkListViewModel
     
     var body: some View {
         Group {
@@ -94,7 +96,11 @@ struct LandmarkDetailsMetadataIcons: View {
                 
                 HStack {
                     Button {
-                        landmark.isFavorite.toggle()
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                            landmarkViewModel.toggleLandmarkFavorite(landmarkId: landmark.objectId)
+                            landmarkViewModel.fetchLandmarks()
+                            landmark.isFavorite.toggle()
+                        }
                     } label: {
                         Image(systemName: landmark.isFavorite ? "heart.fill" : "heart")
                             .foregroundColor(landmark.isFavorite ? Color.accentColor : Color.gray)

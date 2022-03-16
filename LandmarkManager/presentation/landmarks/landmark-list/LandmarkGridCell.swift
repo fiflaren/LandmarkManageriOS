@@ -21,7 +21,6 @@ struct LandmarkGridCell: View {
                 Image(uiImage: landmark.image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: width != nil ? width : .infinity, height: height != nil ? height : .infinity)
                     .overlay(TintOverlay().opacity(0.75))
                     .clipShape(imageClipShape)
                     .accessibility(hidden: true)
@@ -32,7 +31,6 @@ struct LandmarkGridCell: View {
             Image(uiImage: landmark.image)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: width != nil ? width : .infinity, height: height != nil ? height : .infinity)
                 .overlay(TintOverlay().opacity(0.75))
                 .clipShape(imageClipShape)
                 .accessibility(hidden: true)
@@ -53,7 +51,6 @@ struct LandmarkGridCell: View {
             }
             .padding(10)
         }
-        .frame(width: width != nil ? width : .infinity, height: height != nil ? height : .infinity)
     }
 }
 

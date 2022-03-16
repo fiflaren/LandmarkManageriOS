@@ -16,96 +16,73 @@ struct LandmarkListView: View {
     @State private var selectedTabIndex: Int = 0
     @State private var landmarkToEdit: LandmarkModel? = nil
     @State private var showDeleteConfirmation: Bool = false
-    @State private var gridMode: Bool = false
     @State private var selection: NSManagedObjectID?
-
+    
     private var gridColumnConfig: [GridItem] {
         Array(repeating: .init(.fixed(150)), count: 2)
     }
     
     var body: some View {
-        Group {
+        VStack {
             if landmarkViewModel.isLoading {
                 ProgressView()
             } else if landmarkViewModel.isLoading == false && landmarkViewModel.landmarks.count == 0 {
                 Text("landmarkList_emptyText")
             } else {
+                
                 if selectedTabIndex == 0 {
-                    if gridMode {
-                        ScrollView {
-                            
-                            HStack {
-                                Text("Favoris")
-                                    .fontWeight(.semibold)
-                                    .font(.title2)
-                                
-                                Spacer()
-                            }
-                            .padding(.horizontal, 40)
-                            
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 20) {
-                                    ForEach(favoriteSearchResults) { landmark in
-                                        GeometryReader { geometry in
-                                            NavigationLink(tag: landmark.objectId, selection: $selection) {
-                                                LandmarkDetails(landmark: landmark)
-                                            } label: {
-                                                LandmarkGridCell(landmark: landmark, showBackgroundBlur: true)
-                                                    .rotation3DEffect(Angle(degrees: (Double(geometry.frame(in: .global).minX) - 40) / -20), axis: (x: 0, y: 10.0, z: 0))
-                                            }
-                                            .contextMenu {
-                                                Button {
-                                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
-                                                        landmarkViewModel.toggleLandmarkFavorite(landmarkId: landmark.objectId)
-                                                        landmarkViewModel.fetchLandmarks()
-                                                    }
-                                                } label: {
-                                                    Label("\(landmark.isFavorite ? "Retirer des" : "Ajouter aux ") favoris", systemImage: landmark.isFavorite ? "heart" : "heart.fill")
-                                                }
-                                            }
-                                        }
-                                        .frame(width: 246, height: 150)
-                                    }
-                                }
-                                .padding(40)
-                            }
+                    if !favoriteSearchResults.isEmpty {
+                        HStack {
+                            Text("Favoris")
+                                .fontWeight(.semibold)
+                                .font(.title2)
                             
                             Spacer()
-                                .frame(height: 20)
-                            
-                            LazyVGrid(columns: gridColumnConfig, spacing: 20) {
-                                LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, gridMode: $gridMode)
-                                    .environmentObject(landmarkViewModel)
-                            }
-                            
                         }
-                    } else {
-                        List {
-                            if !favoriteSearchResults.isEmpty {
-                                Section(header: Text("landmarkList_favoritesTitle")) {
-                                    LandmarkListSectionContent(displayOnlyFavorites: true, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, gridMode: $gridMode)
-                                        .environmentObject(landmarkViewModel)
+                        .padding(.horizontal, 40)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 20) {
+                                ForEach(favoriteSearchResults) { landmark in
+                                        NavigationLink(tag: landmark.objectId, selection: $selection) {
+                                            LandmarkDetails(landmark: landmark)
+                                        } label: {
+                                            LandmarkGridCell(landmark: landmark, showBackgroundBlur: true)
+                                        }
+                                        .contextMenu {
+                                            Button {
+                                                withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                                                    landmarkViewModel.toggleLandmarkFavorite(landmarkId: landmark.objectId)
+                                                    landmarkViewModel.fetchLandmarks()
+                                                }
+                                            } label: {
+                                                Label("\(landmark.isFavorite ? "Retirer des" : "Ajouter aux ") favoris", systemImage: landmark.isFavorite ? "heart" : "heart.fill")
+                                            }
+                                        }
                                 }
                             }
-                            
-                            Section() {
-                                LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, gridMode: $gridMode)
-                                    .environmentObject(landmarkViewModel)
-                            }
+                            .padding(40)
                         }
-                        .searchable(text: $searchText, prompt: "landmarkList_searchPlaceholder".localized)
                     }
+                    
+                    List {
+                        Section() {
+                            LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation)
+                                .environmentObject(landmarkViewModel)
+                        }
+                    }
+                    .searchable(text: $searchText, prompt: "landmarkList_searchPlaceholder".localized)
+                    
                     
                 } else {
                     LandmarkMapView(showDetailsOnTap: true, mapLandmarks: landmarkViewModel.landmarks)
                 }
-                
             }
         }
         .navigationTitle(Text("landmarkList_title", comment: "landmarkList_title"))
         .toolbar(content: {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
-                LandmarkListToolbar(selectedTabIndex: $selectedTabIndex, showAddLandmarkModal: $showAddLandmarkModal, gridMode: $gridMode)
+                LandmarkListToolbar(selectedTabIndex: $selectedTabIndex, showAddLandmarkModal: $showAddLandmarkModal)
                     .environmentObject(landmarkViewModel)
             }
         })
@@ -142,7 +119,6 @@ struct LandmarkListToolbar: View {
     @EnvironmentObject var landmarkViewModel: LandmarkListViewModel
     @Binding var selectedTabIndex: Int
     @Binding var showAddLandmarkModal: Bool
-    @Binding var gridMode: Bool
     
     var body: some View {
         Menu {
@@ -155,14 +131,6 @@ struct LandmarkListToolbar: View {
             }
             
             if selectedTabIndex == 0 {
-                Section {
-                    Button {
-                        gridMode.toggle()
-                    } label: {
-                        Label(gridMode ? "Liste" : "Grille", systemImage: gridMode ? "list.bullet" : "square.grid.2x2")
-                    }
-                }
-                
                 Section {
                     Picker(selection: $landmarkViewModel.sortBy, label: Text("Trier par")) {
                         ForEach(ListSortingProperty.allCases) { sortingProperty in
@@ -203,7 +171,6 @@ struct LandmarkListSectionContent: View {
     @Binding var showAddLandmarkModal: Bool
     @Binding var searchText: String
     @Binding var showDeleteConfirmation: Bool
-    @Binding var gridMode: Bool
     
     @EnvironmentObject var landmarkViewModel: LandmarkListViewModel
     @State private var selection: NSManagedObjectID?
@@ -215,31 +182,18 @@ struct LandmarkListSectionContent: View {
             NavigationLink(tag: landmark.objectId, selection: $selection) {
                 LandmarkDetails(landmark: landmark)
             } label: {
-                if gridMode {
-                    LandmarkGridCell(landmark: landmark, showBackgroundBlur: false)
-                        .contextMenu {
-                            Button {
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
-                                    landmarkViewModel.toggleLandmarkFavorite(landmarkId: landmark.objectId)
-                                    landmarkViewModel.fetchLandmarks()
-                                }
-                            } label: {
-                                Label("\(landmark.isFavorite ? "Retirer des" : "Ajouter aux ") favoris", systemImage: landmark.isFavorite ? "heart" : "heart.fill")
+                LandmarkListRow(landmark: landmark)
+                    .contextMenu {
+                        Button {
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                                landmarkViewModel.toggleLandmarkFavorite(landmarkId: landmark.objectId)
+                                landmarkViewModel.fetchLandmarks()
                             }
+                        } label: {
+                            Label("\(landmark.isFavorite ? "Retirer des" : "Ajouter aux ") favoris", systemImage: landmark.isFavorite ? "heart" : "heart.fill")
                         }
-                } else {
-                    LandmarkListRow(landmark: landmark)
-                        .contextMenu {
-                            Button {
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
-                                    landmarkViewModel.toggleLandmarkFavorite(landmarkId: landmark.objectId)
-                                    landmarkViewModel.fetchLandmarks()
-                                }
-                            } label: {
-                                Label("\(landmark.isFavorite ? "Retirer des" : "Ajouter aux ") favoris", systemImage: landmark.isFavorite ? "heart" : "heart.fill")
-                            }
-                        }
-                }
+                    }
+                
             }
             // edit swipe action
             .swipeActions(edge: .leading, allowsFullSwipe: true) {
