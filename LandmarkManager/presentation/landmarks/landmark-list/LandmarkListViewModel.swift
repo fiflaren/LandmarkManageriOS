@@ -31,6 +31,7 @@ import CoreData
         }
     }
     @Published var sortByDescending: Bool = false
+    @Published var landmarkIdToDelete: NSManagedObjectID?
     
     private var landmarkRepository = LandmarkRepository.shared
     
@@ -81,9 +82,15 @@ import CoreData
         }
     }
     
-    func deleteLandmark(landmarkId: NSManagedObjectID) {
+    func deleteLandmark(landmarkId: NSManagedObjectID?) {
+        guard let landmarkIdToDelete = (landmarkId != nil ? landmarkId : landmarkIdToDelete) else {
+            self.error = ErrorDisplayWrapper.specificError(LandmarkError.failedDeleting)
+            return
+        }
+        
         do {
-            try landmarkRepository.deleteLandmark(landmarkId: landmarkId)
+            try landmarkRepository.deleteLandmark(landmarkId: landmarkIdToDelete)
+            self.landmarkIdToDelete = nil
             fetchLandmarks()
         } catch {
             self.error = ErrorDisplayWrapper.specificError(error)

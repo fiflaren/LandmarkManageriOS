@@ -45,6 +45,7 @@
 "newLandmarkList_emptyDescription" = "The landmark must have a description";
 "newLandmarkList_failedCreating" = "An error occured when creating the landmark";
 "newLandmarkList_failedEditing" = "An error occured when editing the landmark";
+"newLandmarkList_failedDeleting" = "An error occured when deleting the landmark";
 "newLandmarkList_unknownAddress" = "Unknown address";
 "newLandmarkList_generalInfoTitle" = "General information";
 "newLandmarkList_nameTitle" = "Landmark title…";

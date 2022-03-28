@@ -10,8 +10,6 @@ import MapKit
 import CoreData
 
 struct LandmarkMapView: View {
-    @EnvironmentObject var landmarkViewModel: LandmarkListViewModel
-
     @State var showDetailsOnTap: Bool
     @State var mapLandmarks = [LandmarkModel]()
     @State var region = MKCoordinateRegion(
@@ -39,7 +37,7 @@ struct LandmarkMapView: View {
         }
     }
     
-    func regionThatFitsTo(coordinates: [CLLocationCoordinate2D]) -> MKCoordinateRegion {
+    private func regionThatFitsTo(coordinates: [CLLocationCoordinate2D]) -> MKCoordinateRegion {
         var topLeftCoord = CLLocationCoordinate2D(latitude: -90, longitude: 180)
         var bottomRightCoord = CLLocationCoordinate2D(latitude: 90, longitude: -180)
         for coordinate in coordinates {

@@ -9,24 +9,28 @@ import SwiftUI
 import CoreData
 
 struct LandmarkDetails: View {
-    @State var landmark: LandmarkModel
+    @ObservedObject var viewModel: LandmarkDetailsViewModel
     @State private var isAnimating: Bool = true
-    @EnvironmentObject var landmarkViewModel: LandmarkListViewModel
+    
+    init(landmark: LandmarkModel) {
+        self.viewModel = LandmarkDetailsViewModel(landmark: landmark)
+    }
     
     let imageClipShape = RoundedRectangle(cornerRadius: 10, style: .continuous)
     
     var body: some View {
         ScrollView {
             VStack(alignment: .center, spacing: 20) {
-                LandmarkDetailsImage(landmark: landmark, isAnimating: $isAnimating, imageClipShape: imageClipShape)
+                LandmarkDetailsImage(landmark: viewModel.landmark, isAnimating: $isAnimating, imageClipShape: imageClipShape)
                 
-                LandmarkDetailsMetadataIcons(landmark: $landmark, isAnimating: $isAnimating)
+                LandmarkDetailsMetadataIcons(isAnimating: $isAnimating)
+                    .environmentObject(viewModel)
                 
-                Text(html: landmark.desc)
+                Text(html: viewModel.landmark.desc)
             }
             .padding()
             
-            LandmarkMapView(showDetailsOnTap: false, mapLandmarks: [landmark])
+            LandmarkMapView(showDetailsOnTap: false, mapLandmarks: [viewModel.landmark])
                 .frame(height: 300, alignment: .center)
                 .clipShape(imageClipShape)
                 .padding()
@@ -34,7 +38,7 @@ struct LandmarkDetails: View {
                 .opacity(isAnimating ? 0 : 1)
 
         }
-        .navigationTitle(landmark.title)
+        .navigationTitle(viewModel.landmark.title)
         .onAppear {
             withAnimation(.easeOut(duration: 1)) {
                 isAnimating = false
@@ -77,33 +81,30 @@ struct LandmarkDetailsImage: View {
 }
 
 struct LandmarkDetailsMetadataIcons: View {
-    @Binding var landmark: LandmarkModel
     @Binding var isAnimating: Bool
-    @EnvironmentObject var landmarkViewModel: LandmarkListViewModel
+    @EnvironmentObject var viewModel: LandmarkDetailsViewModel
     
     var body: some View {
         Group {
             HStack(alignment: .center, spacing: 25) {
                 HStack {
                     Image(systemName: "calendar").imageScale(.small)
-                    Text(landmark.modificationDate.toLocalizedString()).font(.caption)
+                    Text(viewModel.landmark.modificationDate.toLocalizedString()).font(.caption)
                 }
                 
                 HStack {
                     Image(systemName: "folder.fill").imageScale(.small)
-                    Text(landmark.category?.name ?? "categoryList_unknown".localized).font(.caption)
+                    Text(viewModel.landmark.category?.name ?? "categoryList_unknown".localized).font(.caption)
                 }
                 
                 HStack {
                     Button {
                         withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
-                            landmarkViewModel.toggleLandmarkFavorite(landmarkId: landmark.objectId)
-                            landmarkViewModel.fetchLandmarks()
-                            landmark.isFavorite.toggle()
+                            viewModel.toggleLandmarkFavorite()
                         }
                     } label: {
-                        Image(systemName: landmark.isFavorite ? "heart.fill" : "heart")
-                            .foregroundColor(landmark.isFavorite ? Color.accentColor : Color.gray)
+                        Image(systemName: viewModel.landmark.isFavorite ? "heart.fill" : "heart")
+                            .foregroundColor(viewModel.landmark.isFavorite ? Color.accentColor : Color.gray)
                     }
                 }
             }.padding(.bottom,5).foregroundColor(Color.gray)

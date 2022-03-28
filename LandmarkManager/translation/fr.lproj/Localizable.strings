@@ -43,6 +43,7 @@
 "newLandmarkList_emptyDescription" = "Vous devez saisir une description pour ce lieu";
 "newLandmarkList_failedCreating" = "Une erreur est survenue lors de la création du lieu";
 "newLandmarkList_failedEditing" = "Une erreur est survenue lors de la modification du lieu";
+"newLandmarkList_failedDeleting" = "Une erreur est survenue lors de la suppression du lieu";
 "newLandmarkList_unknownAddress" = "Adresse inconnue";
 "newLandmarkList_generalInfoTitle" = "Informations générales";
 "newLandmarkList_nameTitle" = "Titre du lieu…";

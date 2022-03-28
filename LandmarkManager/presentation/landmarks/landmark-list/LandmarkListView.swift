@@ -17,9 +17,11 @@ struct LandmarkListView: View {
     @State private var landmarkToEdit: LandmarkModel? = nil
     @State private var showDeleteConfirmation: Bool = false
     @State private var selection: NSManagedObjectID?
+    @State private var gridMode: Bool = false
     
     private var gridColumnConfig: [GridItem] {
-        Array(repeating: .init(.fixed(150)), count: 2)
+        Array.init(repeating: GridItem(.adaptive(minimum: 150, maximum: 250), spacing: 10, alignment: .center),
+                   count: 2)
     }
     
     var body: some View {
@@ -30,50 +32,60 @@ struct LandmarkListView: View {
                 Text("landmarkList_emptyText")
             } else {
                 
+                
                 if selectedTabIndex == 0 {
-                    if !favoriteSearchResults.isEmpty {
-                        HStack {
-                            Text("Favoris")
-                                .fontWeight(.semibold)
-                                .font(.title2)
+                    if gridMode {
+                        ScrollView(.vertical, showsIndicators: false) {
+                            if !favoriteSearchResults.isEmpty {
+                                HStack {
+                                    Text("landmarkList_favoritesTitle").font(.title).fontWeight(.bold)
+                                    Spacer()
+                                }
+                                .padding(10)
+                                
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack {
+                                        LandmarkListSectionContent(displayOnlyFavorites: true, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .grid(showBackgroundBlur: true))
+                                            .environmentObject(landmarkViewModel)
+                                            .padding(.vertical, 10)
+                                    }
+                                    .frame(maxHeight: 150)
+                                    .padding(10)
+                                }
+                                
+                                
+                                Divider()
+                                    .padding()
+                            }
                             
-                            Spacer()
+                            
+                            LazyVGrid(
+                                columns: gridColumnConfig,
+                                alignment: .leading,
+                                spacing: 10,
+                                pinnedViews: [.sectionHeaders, .sectionFooters]
+                            ) {
+                                LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .grid(showBackgroundBlur: false))
+                                    .environmentObject(landmarkViewModel)
+                            }
+                            .padding(10)
                         }
-                        .padding(.horizontal, 40)
-                        
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 20) {
-                                ForEach(favoriteSearchResults) { landmark in
-                                        NavigationLink(tag: landmark.objectId, selection: $selection) {
-                                            LandmarkDetails(landmark: landmark)
-                                        } label: {
-                                            LandmarkGridCell(landmark: landmark, showBackgroundBlur: true)
-                                        }
-                                        .contextMenu {
-                                            Button {
-                                                withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
-                                                    landmarkViewModel.toggleLandmarkFavorite(landmarkId: landmark.objectId)
-                                                    landmarkViewModel.fetchLandmarks()
-                                                }
-                                            } label: {
-                                                Label("\(landmark.isFavorite ? "Retirer des" : "Ajouter aux ") favoris", systemImage: landmark.isFavorite ? "heart" : "heart.fill")
-                                            }
-                                        }
+                    } else {
+                        List {
+                            if !favoriteSearchResults.isEmpty {
+                                Section(header: Text("landmarkList_favoritesTitle")) {
+                                    LandmarkListSectionContent(displayOnlyFavorites: true, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .list)
+                                        .environmentObject(landmarkViewModel)
                                 }
                             }
-                            .padding(40)
+                            
+                            Section() {
+                                LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .list)
+                                    .environmentObject(landmarkViewModel)
+                            }
                         }
+                        .searchable(text: $searchText, prompt: "landmarkList_searchPlaceholder".localized)
                     }
-                    
-                    List {
-                        Section() {
-                            LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation)
-                                .environmentObject(landmarkViewModel)
-                        }
-                    }
-                    .searchable(text: $searchText, prompt: "landmarkList_searchPlaceholder".localized)
-                    
-                    
                 } else {
                     LandmarkMapView(showDetailsOnTap: true, mapLandmarks: landmarkViewModel.landmarks)
                 }
@@ -82,7 +94,7 @@ struct LandmarkListView: View {
         .navigationTitle(Text("landmarkList_title", comment: "landmarkList_title"))
         .toolbar(content: {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
-                LandmarkListToolbar(selectedTabIndex: $selectedTabIndex, showAddLandmarkModal: $showAddLandmarkModal)
+                LandmarkListToolbar(selectedTabIndex: $selectedTabIndex, showAddLandmarkModal: $showAddLandmarkModal, gridMode: $gridMode)
                     .environmentObject(landmarkViewModel)
             }
         })
@@ -119,6 +131,7 @@ struct LandmarkListToolbar: View {
     @EnvironmentObject var landmarkViewModel: LandmarkListViewModel
     @Binding var selectedTabIndex: Int
     @Binding var showAddLandmarkModal: Bool
+    @Binding var gridMode: Bool
     
     var body: some View {
         Menu {
@@ -131,6 +144,14 @@ struct LandmarkListToolbar: View {
             }
             
             if selectedTabIndex == 0 {
+                Section {
+                    Button {
+                        gridMode.toggle()
+                    } label: {
+                        Label(gridMode ? "Liste" : "Grille", systemImage: gridMode ? "list.bullet" : "square.grid.2x2")
+                    }
+                }
+                
                 Section {
                     Picker(selection: $landmarkViewModel.sortBy, label: Text("Trier par")) {
                         ForEach(ListSortingProperty.allCases) { sortingProperty in
@@ -165,13 +186,18 @@ struct LandmarkListToolbar: View {
     }
 }
 
+enum LandmarkListSectionContentDisplayStyle {
+    case list
+    case grid(showBackgroundBlur: Bool)
+}
+
 struct LandmarkListSectionContent: View {
     var displayOnlyFavorites: Bool?
     @Binding var landmarkToEdit: LandmarkModel?
     @Binding var showAddLandmarkModal: Bool
     @Binding var searchText: String
     @Binding var showDeleteConfirmation: Bool
-    
+    var style: LandmarkListSectionContentDisplayStyle
     @EnvironmentObject var landmarkViewModel: LandmarkListViewModel
     @State private var selection: NSManagedObjectID?
     
@@ -182,44 +208,36 @@ struct LandmarkListSectionContent: View {
             NavigationLink(tag: landmark.objectId, selection: $selection) {
                 LandmarkDetails(landmark: landmark)
             } label: {
-                LandmarkListRow(landmark: landmark)
-                    .contextMenu {
-                        Button {
-                            withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
-                                landmarkViewModel.toggleLandmarkFavorite(landmarkId: landmark.objectId)
-                                landmarkViewModel.fetchLandmarks()
-                            }
-                        } label: {
-                            Label("\(landmark.isFavorite ? "Retirer des" : "Ajouter aux ") favoris", systemImage: landmark.isFavorite ? "heart" : "heart.fill")
+                switch style {
+                case .list:
+                    LandmarkListRow(landmark: landmark)
+                        .contextMenu {
+                            toggleFavoriteButton(landmark: landmark)
                         }
+                case .grid(let showBackgroundBlur):
+                    NavigationLink(tag: landmark.objectId, selection: $selection) {
+                        LandmarkDetails(landmark: landmark)
+                    } label: {
+                        LandmarkGridCell(landmark: landmark, showBackgroundBlur: showBackgroundBlur)
                     }
+                    .contextMenu {
+                        toggleFavoriteButton(landmark: landmark)
+                        
+                        editButton(landmark: landmark)
+                        
+                        deleteButton(landmark: landmark)
+                    }
+                }
+                
                 
             }
             // edit swipe action
             .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                Button {
-                    onEdit(landmark: landmark)
-                } label: {
-                    Label {
-                        Text("editActionTitle", comment: "editActionTitle")
-                    } icon: {
-                        Image(systemName: "pencil")
-                    }
-                }
-                .tint(.accentColor)
+                editButton(landmark: landmark)
             }
             // delete swipe action
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                Button(role: .destructive) {
-                    showDeleteConfirmation = true
-                } label: {
-                    Label {
-                        Text("deleteActionTitle", comment: "deleteActionTitle")
-                    } icon: {
-                        Image(systemName: "trash")
-                    }
-                }
-                .tint(.red)
+                deleteButton(landmark: landmark)
             }
             // confirmation dialog on delete
             .confirmationDialog(
@@ -228,7 +246,7 @@ struct LandmarkListSectionContent: View {
             ) {
                 Button("deleteActionTitle".localized, role: .destructive) {
                     withAnimation {
-                        landmarkViewModel.deleteLandmark(landmarkId: landmark.objectId)
+                        landmarkViewModel.deleteLandmark(landmarkId: nil)
                     }
                 }
                 
@@ -236,6 +254,44 @@ struct LandmarkListSectionContent: View {
             }
             
         }
+    }
+    
+    private func toggleFavoriteButton(landmark: LandmarkModel) -> some View {
+        Button {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                landmarkViewModel.toggleLandmarkFavorite(landmarkId: landmark.objectId)
+                landmarkViewModel.fetchLandmarks()
+            }
+        } label: {
+            Label("\(landmark.isFavorite ? "Retirer des" : "Ajouter aux ") favoris", systemImage: landmark.isFavorite ? "heart" : "heart.fill")
+        }
+    }
+    
+    private func editButton(landmark: LandmarkModel) -> some View {
+        Button {
+            onEdit(landmark: landmark)
+        } label: {
+            Label {
+                Text("editActionTitle", comment: "editActionTitle")
+            } icon: {
+                Image(systemName: "pencil")
+            }
+        }
+        .tint(.accentColor)
+    }
+    
+    private func deleteButton(landmark: LandmarkModel) -> some View {
+        Button(role: .destructive) {
+            landmarkViewModel.landmarkIdToDelete = landmark.objectId
+            showDeleteConfirmation = true
+        } label: {
+            Label {
+                Text("deleteActionTitle", comment: "deleteActionTitle")
+            } icon: {
+                Image(systemName: "trash")
+            }
+        }
+        .tint(.red)
     }
     
     private func onEdit(landmark: LandmarkModel) {

@@ -15,6 +15,7 @@ enum LandmarkError: Error, LocalizedError {
     case badImage
     case failedCreating
     case failedEditing
+    case failedDeleting
     case emptyLocation
     case emptyName
     case emptyDescription
@@ -31,6 +32,8 @@ enum LandmarkError: Error, LocalizedError {
             return "newLandmarkList_failedCreating".localized
         case .failedEditing:
             return "newLandmarkList_failedEditing".localized
+        case .failedDeleting:
+            return "newLandmarkList_failedDeleting".localized
         case .emptyLocation:
             return "newLandmarkList_emptyLocation".localized
         case .emptyName:
