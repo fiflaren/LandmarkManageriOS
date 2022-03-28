@@ -48,6 +48,9 @@ struct LandmarkGridCell: View {
                     .fontWeight(.bold)
                     .font(.title)
                     .foregroundColor(.white)
+                    .lineLimit(1)
+                    .allowsTightening(true)
+                    .minimumScaleFactor(0.5)
             }
             .padding(10)
         }

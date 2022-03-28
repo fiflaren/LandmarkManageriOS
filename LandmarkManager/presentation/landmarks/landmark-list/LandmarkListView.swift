@@ -25,7 +25,8 @@ struct LandmarkListView: View {
     }
     
     var body: some View {
-        VStack {
+        GeometryReader { geometry in
+            VStack {
             if landmarkViewModel.isLoading {
                 ProgressView()
             } else if landmarkViewModel.isLoading == false && landmarkViewModel.landmarks.count == 0 {
@@ -43,13 +44,14 @@ struct LandmarkListView: View {
                                 }
                                 .padding(10)
                                 
+                                
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack {
                                         LandmarkListSectionContent(displayOnlyFavorites: true, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .grid(showBackgroundBlur: true))
                                             .environmentObject(landmarkViewModel)
                                             .padding(.vertical, 10)
                                     }
-                                    .frame(maxHeight: 150)
+                                    .frame(maxWidth: geometry.size.width / 2, maxHeight: geometry.size.height / 4)
                                     .padding(10)
                                 }
                                 
@@ -93,6 +95,7 @@ struct LandmarkListView: View {
                     LandmarkMapView(showDetailsOnTap: true, mapLandmarks: landmarkViewModel.landmarks)
                 }
             }
+        }
         }
         .navigationTitle(Text("landmarkList_title", comment: "landmarkList_title"))
         .toolbar(content: {
