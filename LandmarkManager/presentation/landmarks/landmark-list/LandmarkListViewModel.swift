@@ -104,5 +104,11 @@ import CoreData
             self.error = ErrorDisplayWrapper.specificError(error)
         }
     }
+    
+    func getNumberOfLandmarks(favoriteLandmarks: Bool) -> Int {
+        return landmarks.filter { landmark in
+            landmark.isFavorite == favoriteLandmarks
+        }.count
+    }
 }
 

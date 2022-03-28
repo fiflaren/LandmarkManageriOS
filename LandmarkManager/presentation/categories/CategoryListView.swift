@@ -34,6 +34,7 @@ struct CategoryListView: View {
                             // delete swipe action
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(role: .destructive) {
+                                    categoryViewModel.categoryIndexToDelete = index
                                     showDeleteConfirmation = true
                                 } label: {
                                     Label {
@@ -47,7 +48,8 @@ struct CategoryListView: View {
                             // edit swipe action
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 Button {
-                                    onEdit(index: index, name: category.name)
+                                    categoryViewModel.categoryIndexToEdit = index
+                                    onEdit(name: category.name)
                                 } label: {
                                     Label {
                                         Text("editActionTitle", comment: "editActionTitle")
@@ -64,7 +66,7 @@ struct CategoryListView: View {
                             ) {
                                 Button("deleteActionTitle".localized, role: .destructive) {
                                     withAnimation {
-                                        onDelete(index: index)
+                                        onDelete()
                                     }
                                 }
                                 
@@ -107,17 +109,17 @@ struct CategoryListView: View {
         }
     }
     
-    private func onEdit(index: Int, name: String) {
+    private func onEdit(name: String) {
         showAlertWithTextView(add: false, text: name) { categoryName in
             withAnimation {
-                categoryViewModel.editCategory(categoryIndex: index, newName: categoryName)
+                categoryViewModel.editCategory(newName: categoryName)
             }
         }
     }
     
-    private func onDelete(index: Int) {
+    private func onDelete() {
         withAnimation {
-            categoryViewModel.deleteCategory(categoryIndex: index)
+            categoryViewModel.deleteCategory()
         }
     }
     

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 @MainActor class CategoryListViewModel: ObservableObject {
    
@@ -28,6 +29,8 @@ import Foundation
         }
     }
     @Published var sortByDescending: Bool = false
+    @Published var categoryIndexToDelete: Int?
+    @Published var categoryIndexToEdit: Int?
     
     private var categoryRepository = CategoryRepository.shared
     
@@ -60,18 +63,30 @@ import Foundation
         fetchCategories()
     }
     
-    func editCategory(categoryIndex: Int, newName: String) {
+    func editCategory(newName: String) {
+        guard let categoryIndexToEdit = categoryIndexToEdit else {
+            self.error = ErrorDisplayWrapper.specificError(CategoryError.failedEditing)
+            return
+        }
+        
         do {
-            try categoryRepository.editCategory(categoryIndex: categoryIndex, newName: newName)
+            try categoryRepository.editCategory(categoryIndex: categoryIndexToEdit, newName: newName)
+            self.categoryIndexToEdit = nil
             fetchCategories()
         } catch(let error) {
             self.error = ErrorDisplayWrapper.specificError(error)
         }
     }
     
-    func deleteCategory(categoryIndex: Int) {
+    func deleteCategory() {
+        guard let categoryIndexToDelete = categoryIndexToDelete else {
+            self.error = ErrorDisplayWrapper.specificError(CategoryError.failedDeleting)
+            return
+        }
+        
         do {
-            try categoryRepository.deleteCategory(categoryIndex: categoryIndex)
+            try categoryRepository.deleteCategory(categoryIndex: categoryIndexToDelete)
+            self.categoryIndexToDelete = nil
             fetchCategories()
         } catch(let error) {
             self.error = ErrorDisplayWrapper.specificError(error)

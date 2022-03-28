@@ -36,7 +36,7 @@ struct LandmarkListView: View {
                 if selectedTabIndex == 0 {
                     if gridMode {
                         ScrollView(.vertical, showsIndicators: false) {
-                            if !favoriteSearchResults.isEmpty {
+                            if landmarkViewModel.getNumberOfLandmarks(favoriteLandmarks: true) > 0 {
                                 HStack {
                                     Text("landmarkList_favoritesTitle").font(.title).fontWeight(.bold)
                                     Spacer()
@@ -53,9 +53,12 @@ struct LandmarkListView: View {
                                     .padding(10)
                                 }
                                 
+                                // if there are any non favorite landmarks display a divider
+                                if landmarkViewModel.getNumberOfLandmarks(favoriteLandmarks: false) > 0 {
+                                    Divider()
+                                        .padding()
+                                }
                                 
-                                Divider()
-                                    .padding()
                             }
                             
                             
@@ -72,7 +75,7 @@ struct LandmarkListView: View {
                         }
                     } else {
                         List {
-                            if !favoriteSearchResults.isEmpty {
+                            if landmarkViewModel.getNumberOfLandmarks(favoriteLandmarks: true) > 0 {
                                 Section(header: Text("landmarkList_favoritesTitle")) {
                                     LandmarkListSectionContent(displayOnlyFavorites: true, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .list)
                                         .environmentObject(landmarkViewModel)
@@ -113,16 +116,6 @@ struct LandmarkListView: View {
         })
         .onAppear {
             landmarkViewModel.loadLandmarks()
-        }
-    }
-    
-    private var favoriteSearchResults: [LandmarkModel] {
-        let landmarks = landmarkViewModel.getLandmarks(favorite: true)
-        
-        if searchText.isEmpty {
-            return landmarks
-        } else {
-            return landmarks.filter { $0.title.contains(searchText) }
         }
     }
 }
@@ -282,6 +275,7 @@ struct LandmarkListSectionContent: View {
     
     private func deleteButton(landmark: LandmarkModel) -> some View {
         Button(role: .destructive) {
+            print("landmarkList_deleteConfirmation".localized)
             landmarkViewModel.landmarkIdToDelete = landmark.objectId
             showDeleteConfirmation = true
         } label: {

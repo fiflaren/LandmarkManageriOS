@@ -11,6 +11,8 @@ import CoreData
 enum CategoryError: Error, LocalizedError {
     case notFound
     case failedFetchingFromDb
+    case failedDeleting
+    case failedEditing
     
     var errorDescription: String? {
         switch self {
@@ -18,6 +20,10 @@ enum CategoryError: Error, LocalizedError {
             return "categoryList_notFound".localized
         case .failedFetchingFromDb:
             return "categoryList_failedFetchingFromDb".localized
+        case .failedDeleting:
+            return "categoryList_failedDeleting".localized
+        case .failedEditing:
+            return "categoryList_failedEditing"
         }
     }
 }

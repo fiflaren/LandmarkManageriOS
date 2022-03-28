@@ -12,6 +12,8 @@
 "categoryList_emptyText" = "Aucune catégorie pour le moment…";
 "categoryList_notFound" = "La catégorie est introuvable";
 "categoryList_failedFetchingFromDb" = "Le chargement des catégories a echoué";
+"categoryList_failedDeleting" = "Une erreur est survenue lors de la suppression de la catégorie";
+"categoryList_failedEditing" = "Une erreur est survenue lors de la modification de la catégorie";
 "categoryList_deleteConfirmation" = "Êtes-vous sûr(e) de vouloir supprimer cette catégorie ? Cette action est irréversible et engendrera la suppression de tous les lieux qui s'y trouvent !";
 
 
