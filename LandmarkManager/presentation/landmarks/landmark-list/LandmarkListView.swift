@@ -26,77 +26,82 @@ struct LandmarkListView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack {
-            if landmarkViewModel.isLoading {
-                ProgressView()
-            } else if landmarkViewModel.isLoading == false && landmarkViewModel.landmarks.count == 0 {
-                Text("landmarkList_emptyText")
-            } else {
-                
-                
-                if selectedTabIndex == 0 {
-                    if gridMode {
-                        ScrollView(.vertical, showsIndicators: false) {
-                            if landmarkViewModel.getNumberOfLandmarks(favoriteLandmarks: true) > 0 {
-                                HStack {
-                                    Text("landmarkList_favoritesTitle").font(.title).fontWeight(.bold)
-                                    Spacer()
+            VStack(alignment: .center) {
+                if landmarkViewModel.isLoading {
+                    ProgressView()
+                } else if landmarkViewModel.isLoading == false && landmarkViewModel.landmarks.count == 0 {
+                    HStack {
+                        Spacer()
+                        Text("landmarkList_emptyText")
+                            .multilineTextAlignment(.center)
+                        Spacer()
+                    }
+                    .padding()
+                    
+                } else {
+                    if selectedTabIndex == 0 {
+                        if gridMode {
+                            ScrollView(.vertical, showsIndicators: false) {
+                                if landmarkViewModel.getNumberOfLandmarks(favoriteLandmarks: true) > 0 {
+                                    HStack {
+                                        Text("landmarkList_favoritesTitle").font(.title).fontWeight(.bold)
+                                        Spacer()
+                                    }
+                                    .padding(10)
+                                    
+                                    
+                                    ScrollView(.horizontal, showsIndicators: false) {
+                                        HStack {
+                                            LandmarkListSectionContent(displayOnlyFavorites: true, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .grid(showBackgroundBlur: true, height: geometry.size.height / 4))
+                                                .environmentObject(landmarkViewModel)
+                                                .padding(.vertical, 10)
+                                        }
+                                        .frame(maxHeight: 150)
+                                        .padding(10)
+                                    }
+                                    //.frame(maxHeight: geometry.size.height / 4)
+                                    
+                                    // if there are any non favorite landmarks display a divider
+                                    if landmarkViewModel.getNumberOfLandmarks(favoriteLandmarks: false) > 0 {
+                                        Divider()
+                                            .padding()
+                                    }
+                                    
+                                }
+                                
+                                
+                                LazyVGrid(
+                                    columns: gridColumnConfig,
+                                    alignment: .leading,
+                                    spacing: 10,
+                                    pinnedViews: [.sectionHeaders, .sectionFooters]
+                                ) {
+                                    LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .grid(showBackgroundBlur: false, height: geometry.size.height))
+                                        .environmentObject(landmarkViewModel)
                                 }
                                 .padding(10)
-                                
-                                
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack {
-                                        LandmarkListSectionContent(displayOnlyFavorites: true, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .grid(showBackgroundBlur: true, height: geometry.size.height / 4))
+                            }
+                        } else {
+                            List {
+                                if landmarkViewModel.getNumberOfLandmarks(favoriteLandmarks: true) > 0 {
+                                    Section(header: Text("landmarkList_favoritesTitle")) {
+                                        LandmarkListSectionContent(displayOnlyFavorites: true, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .list)
                                             .environmentObject(landmarkViewModel)
-                                            .padding(.vertical, 10)
                                     }
-                                    .frame(maxHeight: 150)
-                                    .padding(10)
-                                }
-                                //.frame(maxHeight: geometry.size.height / 4)
-                                
-                                // if there are any non favorite landmarks display a divider
-                                if landmarkViewModel.getNumberOfLandmarks(favoriteLandmarks: false) > 0 {
-                                    Divider()
-                                        .padding()
                                 }
                                 
-                            }
-                            
-                            
-                            LazyVGrid(
-                                columns: gridColumnConfig,
-                                alignment: .leading,
-                                spacing: 10,
-                                pinnedViews: [.sectionHeaders, .sectionFooters]
-                            ) {
-                                LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .grid(showBackgroundBlur: false, height: geometry.size.height))
-                                    .environmentObject(landmarkViewModel)
-                            }
-                            .padding(10)
-                        }
-                    } else {
-                        List {
-                            if landmarkViewModel.getNumberOfLandmarks(favoriteLandmarks: true) > 0 {
-                                Section(header: Text("landmarkList_favoritesTitle")) {
-                                    LandmarkListSectionContent(displayOnlyFavorites: true, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .list)
+                                Section() {
+                                    LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .list)
                                         .environmentObject(landmarkViewModel)
                                 }
                             }
-                            
-                            Section() {
-                                LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .list)
-                                    .environmentObject(landmarkViewModel)
-                            }
+                            .searchable(text: $searchText, prompt: "landmarkList_searchPlaceholder".localized)
                         }
-                        .searchable(text: $searchText, prompt: "landmarkList_searchPlaceholder".localized)
+                    } else {
+                        LandmarkMapView(showDetailsOnTap: true, mapLandmarks: landmarkViewModel.landmarks)
                     }
-                } else {
-                    LandmarkMapView(showDetailsOnTap: true, mapLandmarks: landmarkViewModel.landmarks)
                 }
             }
-        }
         }
         .navigationTitle(Text("landmarkList_title", comment: "landmarkList_title"))
         .toolbar(content: {
