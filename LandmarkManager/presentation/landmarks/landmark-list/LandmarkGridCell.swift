@@ -44,35 +44,16 @@ struct LandmarkGridCell: View {
                 
                 Spacer()
                 
-                Text(landmark.title)
+                Text(landmark.title.trunc(length: 20))
                     .fontWeight(.bold)
                     .font(.title)
                     .foregroundColor(.white)
-                    .lineLimit(1)
                     .allowsTightening(true)
                     .minimumScaleFactor(0.5)
+                    .lineLimit(1)
             }
             .padding(10)
         }
-    }
-}
-
-struct LandmarkGridCell_Previews: PreviewProvider {
-    static var previews: some View {
-        LandmarkGridCell(landmark: LandmarkModel(id: 1, objectId: NSManagedObjectID(), title: "test title", desc: "test desc", image: UIImage(systemName: "pencil")!, isFavorite: true, creationDate: Date(), modificationDate: Date(), category: CategoryModel(id: 1, objectId: NSManagedObjectID(), name: "test", creationDate: Date(), modificationDate: Date(), landmarks: []), location: CoordinateModel(id: UUID(), lat: 2.0, lng: 2.0)), showBackgroundBlur: true)
-            .previewLayout(PreviewLayout.sizeThatFits)
-        
-    }
-}
-
-extension Color {
-    static var gradient: Array<Color> {
-        return [
-            Color(red: 37/255, green: 37/255, blue: 37/255, opacity: 0),
-            Color(red: 37/255, green: 37/255, blue: 37/255, opacity: 0.1),
-            Color(red: 37/255, green: 37/255, blue: 37/255, opacity: 0.3),
-            Color(red: 37/255, green: 37/255, blue: 37/255, opacity: 1.0),
-        ]
     }
 }
 
@@ -84,8 +65,10 @@ struct TintOverlay: View {
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         .background(
-            LinearGradient(gradient: Gradient(colors: Color.gradient), startPoint: .top, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(colors: Color.imageBlackOverlayGradient), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)
         )
     }
 }
+
+

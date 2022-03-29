@@ -47,13 +47,14 @@ struct LandmarkListView: View {
                                 
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack {
-                                        LandmarkListSectionContent(displayOnlyFavorites: true, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .grid(showBackgroundBlur: true))
+                                        LandmarkListSectionContent(displayOnlyFavorites: true, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .grid(showBackgroundBlur: true, height: geometry.size.height / 4))
                                             .environmentObject(landmarkViewModel)
                                             .padding(.vertical, 10)
                                     }
-                                    .frame(maxWidth: geometry.size.width / 2, maxHeight: geometry.size.height / 4)
+                                    .frame(maxHeight: 150)
                                     .padding(10)
                                 }
+                                //.frame(maxHeight: geometry.size.height / 4)
                                 
                                 // if there are any non favorite landmarks display a divider
                                 if landmarkViewModel.getNumberOfLandmarks(favoriteLandmarks: false) > 0 {
@@ -70,7 +71,7 @@ struct LandmarkListView: View {
                                 spacing: 10,
                                 pinnedViews: [.sectionHeaders, .sectionFooters]
                             ) {
-                                LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .grid(showBackgroundBlur: false))
+                                LandmarkListSectionContent(displayOnlyFavorites: false, landmarkToEdit: $landmarkToEdit, showAddLandmarkModal: $showAddLandmarkModal, searchText: $searchText, showDeleteConfirmation: $showDeleteConfirmation, style: .grid(showBackgroundBlur: false, height: geometry.size.height))
                                     .environmentObject(landmarkViewModel)
                             }
                             .padding(10)
@@ -184,7 +185,7 @@ struct LandmarkListToolbar: View {
 
 enum LandmarkListSectionContentDisplayStyle {
     case list
-    case grid(showBackgroundBlur: Bool)
+    case grid(showBackgroundBlur: Bool, height: CGFloat)
 }
 
 struct LandmarkListSectionContent: View {
@@ -210,11 +211,13 @@ struct LandmarkListSectionContent: View {
                         .contextMenu {
                             toggleFavoriteButton(landmark: landmark)
                         }
-                case .grid(let showBackgroundBlur):
+                case .grid(let showBackgroundBlur, let height):
                     NavigationLink(tag: landmark.objectId, selection: $selection) {
                         LandmarkDetails(landmark: landmark)
                     } label: {
                         LandmarkGridCell(landmark: landmark, showBackgroundBlur: showBackgroundBlur)
+                            .scaledToFit()
+                            .frame(maxHeight: height)
                     }
                     .contextMenu {
                         toggleFavoriteButton(landmark: landmark)
